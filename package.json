@@ -1,0 +1,22 @@
+{
+	"name": "makima",
+	"version": "1.0.0",
+	"description": "Makima the discord bot",
+	"main": "index.js",
+	"scripts": {
+		"start": "node ./src/index.js"
+	},
+	"keywords": [],
+	"author": "almostJohn <garcia.johngale@gmail.com>",
+	"license": "ISC",
+	"type": "commonjs",
+	"dependencies": {
+		"dayjs": "^1.11.13",
+		"diff": "^7.0.0",
+		"discord.js": "^14.18.0",
+		"dotenv": "^16.4.7"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	}
+}
