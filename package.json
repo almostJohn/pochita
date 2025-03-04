@@ -4,7 +4,8 @@
 	"description": "Makima the discord bot",
 	"main": "index.js",
 	"scripts": {
-		"start": "node ./src/index.js"
+		"start": "node ./src/index.js",
+		"install": "npm install"
 	},
 	"keywords": [],
 	"author": "almostJohn <garcia.johngale@gmail.com>",
