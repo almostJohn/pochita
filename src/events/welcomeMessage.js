@@ -35,11 +35,13 @@ module.exports = {
 				`# 👋 Welcome to ${italic(guildMember.guild.name)}!`,
 				`## Your the ${italic(
 					getOrdinal(guildMember.guild.memberCount),
-				)} member of this server, ${guildMember.user.tag}`,
-				`### Thank you for joining, I hope you enjoy your stay here 💖`,
+				)} member of this server, \`${guildMember.user.tag}\``,
+				`### Thank you for joining ${guildMember.user.toString()}, I hope you enjoy your stay here 💖`,
 			];
 
-			mainChannel.send({ content: content.join("\n") });
+			mainChannel.send({
+				content: content.join("\n"),
+			});
 		} catch (error) {
 			console.error(error);
 		}

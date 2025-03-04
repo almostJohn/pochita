@@ -27,7 +27,7 @@ module.exports = {
 
 			console.log(`Thread ${thread.name} deleted`);
 
-			const descriptionParts = [`• Thread: ${thread.name} (${thread.id})`];
+			const descriptionParts = [`• Thread: \`${thread.name}\` (${thread.id})`];
 
 			const starterMessage = await thread
 				.fetchStarterMessage()
@@ -56,7 +56,7 @@ module.exports = {
 				timestamp: (thread.createdAt ?? new Date()).toISOString(),
 			};
 
-			guildLogChannel.send({ embeds: [embed] });
+			await guildLogChannel.send({ embeds: [embed] });
 		} catch (error) {
 			console.error(error);
 		}

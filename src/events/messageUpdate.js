@@ -108,9 +108,9 @@ module.exports = {
 			}
 
 			const info = `
-        • Channel: ${newMessage.channel.toString()} - ${
+        • Channel: ${newMessage.channel.toString()} - \`${
 				newMessage.inGuild() ? newMessage.channel.name : ""
-			} (${newMessage.channel.id})\n• [Jump to](${newMessage.url})
+			}\` (${newMessage.channel.id})\n• [Jump to](${newMessage.url})
       `;
 			const embed = {
 				color: color.Teal,

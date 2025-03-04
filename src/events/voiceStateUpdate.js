@@ -40,9 +40,9 @@ module.exports = {
 
 				console.log(`Member ${newState.member.id} joined a voice channel`);
 
-				description = `Joined ${newState.channel.toString()} - ${
+				description = `Joined ${newState.channel.toString()} - \`${
 					newState.channel.name
-				} (${newState.channel.id})`;
+				}\` (${newState.channel.id})`;
 				author = {
 					name: `${newState.member.user.tag} (${newState.member.user.id})`,
 					icon_url: newState.member.user.displayAvatarURL(),
@@ -54,9 +54,9 @@ module.exports = {
 
 				console.log(`Member ${oldState.member.id} left a voice channel`);
 
-				description = `Left ${oldState.channel.toString()} - ${
+				description = `Left ${oldState.channel.toString()} - \`${
 					oldState.channel.name
-				} (${oldState.channel.id})`;
+				}\` (${oldState.channel.id})`;
 				author = {
 					name: `${oldState.member.user.tag} (${oldState.member.user.id})`,
 					icon_url: oldState.member.user.displayAvatarURL(),
@@ -74,11 +74,11 @@ module.exports = {
 					`Member left a voice channel and moved from ${oldState.channel.id} to ${newState.channel.id}`,
 				);
 
-				description = `Moved from ${oldState.channel.toString()} - ${
+				description = `Moved from ${oldState.channel.toString()} - \`${
 					oldState.channel.name
-				} (${oldState.channel.id}) to ${newState.channel.toString()} - ${
+				}\` (${oldState.channel.id}) to ${newState.channel.toString()} - \`${
 					newState.channel.name
-				} (${newState.channel.id})`;
+				}\` (${newState.channel.id})`;
 				author = {
 					name: `${newState.member.user.tag} (${newState.member.user.id})`,
 					icon_url: newState.member.user.displayAvatarURL(),

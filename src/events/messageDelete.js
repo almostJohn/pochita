@@ -54,9 +54,9 @@ module.exports = {
 			);
 
 			const infoParts = [
-				`• Channel: ${message.channel.toString()} - ${message.channel.name} (${
-					message.channel.id
-				})`,
+				`• Channel: ${message.channel.toString()} - \`${
+					message.channel.name
+				}\` (${message.channel.id})`,
 			];
 
 			if (!message.content && message.embeds.length) {
@@ -94,8 +94,8 @@ module.exports = {
 
 				infoParts.push(
 					message.mentions.users.has(message.mentions.repliedUser.id)
-						? `• @Replying to [${messageId}](${replyURL}) by ${message.mentions.repliedUser.tag} (${message.mentions.repliedUser.id})`
-						: `• Replying to [${messageId}](${replyURL}) by ${message.mentions.repliedUser.tag} (${message.mentions.repliedUser.id})`,
+						? `• @Replying to [${messageId}](${replyURL}) by \`${message.mentions.repliedUser.tag}\` (${message.mentions.repliedUser.id})`
+						: `• Replying to [${messageId}](${replyURL}) by \`${message.mentions.repliedUser.tag}\` (${message.mentions.repliedUser.id})`,
 				);
 			}
 

@@ -33,7 +33,7 @@ module.exports = {
 			console.log(`Thread ${thread.name} created`);
 
 			const descriptionParts = [
-				`• Thread: ${thread.toString()} - ${thread.name} (${thread.id})`,
+				`• Thread: ${thread.toString()} - \`${thread.name}\` (${thread.id})`,
 			];
 
 			const starterMessage = await thread
@@ -63,7 +63,7 @@ module.exports = {
 				timestamp: (thread.createdAt ?? new Date()).toISOString(),
 			};
 
-			guildLogChannel.send({ embeds: [embed] });
+			await guildLogChannel.send({ embeds: [embed] });
 		} catch (error) {
 			console.error(error);
 		}
