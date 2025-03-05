@@ -11,6 +11,7 @@ const dayjs = require("dayjs");
 const relativeTime = require("dayjs/plugin/relativeTime.js");
 const duration = require("dayjs/plugin/duration.js");
 const { colorFromDuration } = require("../../util/generateMemberLog");
+const { getInfoOnMemberRank } = require("../../util/getInfoOnMemberRank");
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -46,42 +47,7 @@ module.exports = {
 			});
 		}
 
-		const joinedDuration = dayjs.duration(
-			dayjs().diff(dayjs(guildMember.joinedTimestamp)),
-		);
-		const monthsJoined = joinedDuration.asMonths();
-
-		let rank = "";
-
-		switch (true) {
-			case monthsJoined < 1:
-				rank = "Not qualified yet for roles/ranks in this server";
-				break;
-			case monthsJoined < 3:
-				rank = "Can now claim the `Bronze Arc I` role";
-				break;
-			case monthsJoined < 6:
-				rank = "Can now claim the `Silver Arc II` role";
-				break;
-			case monthsJoined < 12:
-				rank = "Can now claim the `Gold Arc III` role";
-				break;
-			case monthsJoined < 24:
-				rank = "Can now claim the `Platinum Arc IV` role";
-				break;
-			case monthsJoined < 36:
-				rank = "Can now claim the `Diamond Arc V` role";
-				break;
-			case monthsJoined < 60:
-				rank = "Can now claim the `Emerald Arc VI` role";
-				break;
-			case monthsJoined < 72:
-				rank = "Can now claim the `Ruby Arc VII` role";
-				break;
-			case monthsJoined >= 72:
-				rank = "Can now claim the `Opal Arc VIII` role";
-				break;
-		}
+		const rank = getInfoOnMemberRank(guildMember);
 
 		const sinceCreationFormatted = time(
 			dayjs(user.createdTimestamp).unix(),
