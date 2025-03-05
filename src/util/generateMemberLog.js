@@ -93,3 +93,4 @@ function generateMemberLog(member, join = true) {
 }
 
 exports.generateMemberLog = generateMemberLog;
+exports.colorFromDuration = colorFromDuration;

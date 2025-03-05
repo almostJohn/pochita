@@ -16,8 +16,11 @@ module.exports = {
 	async execute(interaction, client) {
 		await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
+		const ping = interaction.client.ws.ping;
+		const status = ping >= 100 ? "Health is not ok 📉" : "Health is ok 📈";
+
 		await interaction.editReply({
-			content: `Health is ok 📈, ping: \`${interaction.client.ws.ping}\` ms`,
+			content: `${status}, ping: \`${ping}\` ms`,
 		});
 	},
 };
