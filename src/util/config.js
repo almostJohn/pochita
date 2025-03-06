@@ -4,8 +4,7 @@ const guildConfig = {
 	guildLogChannelId: "1345752044387958876",
 	mainChannelId: "1228703089972871232",
 	achievementsChannelId: "1346639602189992020",
-	rejectLogChannelId: "1346692921356714064",
-	ticketLogChannelId: "1346692669463855125",
+	discordMemberId: "1347267771225870349",
 };
 
 exports.guildConfig = guildConfig;

@@ -18,7 +18,7 @@ const client = new Client({
 		GatewayIntentBits.GuildVoiceStates,
 		GatewayIntentBits.MessageContent,
 	],
-	partials: [Partials.GuildMember],
+	partials: [Partials.GuildMember, Partials.Channel, Partials.Reaction],
 	makeCache: Options.cacheWithLimits({
 		MessageManager: 100,
 		StageInstanceManager: 10,
@@ -26,51 +26,54 @@ const client = new Client({
 	}),
 });
 client.setMaxListeners(20);
-
 client.commands = new Collection();
 
 const foldersPath = path.join(__dirname, "commands");
 const commandFolders = fs.readdirSync(foldersPath);
-
-for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs
-		.readdirSync(commandsPath)
-		.filter((file) => file.endsWith(".js"));
-	for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		console.log(`Registering command: ${command.data.name}`);
-
-		if ("data" in command && "execute" in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.log(
-				`[WARNING] The command at ${filePath} is missing a "required" data or "execute" property`,
-			);
-		}
-	}
-}
 
 const eventsPath = path.join(__dirname, "events");
 const eventFiles = fs
 	.readdirSync(eventsPath)
 	.filter((file) => file.endsWith(".js"));
 
-for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
-	console.log(`Registering event: ${event.name}`);
+try {
+	for (const folder of commandFolders) {
+		const commandsPath = path.join(foldersPath, folder);
+		const commandFiles = fs
+			.readdirSync(commandsPath)
+			.filter((file) => file.endsWith(".js"));
+		for (const file of commandFiles) {
+			const filePath = path.join(commandsPath, file);
+			const command = require(filePath);
+			console.log(`Registering command: ${command.data.name}`);
 
-	if (event.disabled) {
-		continue;
+			if ("data" in command && "execute" in command) {
+				client.commands.set(command.data.name, command);
+			} else {
+				console.log(
+					`[WARNING] The command at ${filePath} is missing a "required" data or "execute" property`,
+				);
+			}
+		}
 	}
 
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args, client));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args, client));
+	for (const file of eventFiles) {
+		const filePath = path.join(eventsPath, file);
+		const event = require(filePath);
+		console.log(`Registering event: ${event.name}`);
+
+		if (event.disabled) {
+			continue;
+		}
+
+		if (event.once) {
+			client.once(event.name, (...args) => event.execute(...args, client));
+		} else {
+			client.on(event.name, (...args) => event.execute(...args, client));
+		}
 	}
+
+	client.login(process.env.DISCORD_BOT_TOKEN);
+} catch (error) {
+	console.error(error);
 }
-
-client.login(process.env.DISCORD_BOT_TOKEN);
