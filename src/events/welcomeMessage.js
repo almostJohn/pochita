@@ -8,6 +8,7 @@ const {
 const { guildConfig } = require("../util/config");
 const { getOrdinal } = require("../util/getOrdinal");
 const { color } = require("../util/color");
+const { Users } = require("../database");
 
 module.exports = {
 	name: Events.GuildMemberAdd,
@@ -15,7 +16,11 @@ module.exports = {
 	 * @param {GuildMember} guildMember
 	 * @param {Client} client
 	 */
-	execute(guildMember, client) {
+	async execute(guildMember, client) {
+		if (guildMember.user.bot) {
+			return;
+		}
+
 		try {
 			const mainChannelId = guildConfig.mainChannelId;
 
@@ -45,6 +50,8 @@ module.exports = {
 			if (!role) {
 				return;
 			}
+
+			await Users.findOrCreate({ where: { user_id: guildMember.user.id } });
 
 			const parts = [
 				`- You're the ${italic(

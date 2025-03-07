@@ -6,7 +6,7 @@ module.exports = {
 	/**
 	 * @param {Client} client
 	 */
-	execute(client) {
+	async execute(client, currency) {
 		console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
 	},
 };
