@@ -45,6 +45,9 @@ module.exports = {
 
 		const embed = {
 			title: `${interaction.guild.name} Top 10 Richest`,
+			thumbnail: {
+				url: interaction.guild.iconURL(),
+			},
 			description: leaderboard,
 			color: color.Blurple,
 			footer: { text: "Keep grinding to reach the top!" },
