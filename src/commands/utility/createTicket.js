@@ -19,6 +19,7 @@ const { nanoid } = require("nanoid");
 const { color } = require("../../util/color");
 
 module.exports = {
+	cooldown: 3_600,
 	data: new SlashCommandBuilder()
 		.setName("create_ticket")
 		.setDescription("Create a ticket")
