@@ -9,6 +9,7 @@ const { guildConfig } = require("../util/config");
 const { getOrdinal } = require("../util/getOrdinal");
 const { color } = require("../util/color");
 const { Users } = require("../database");
+const { addFields } = require("../util/embed");
 
 module.exports = {
 	name: Events.GuildMemberAdd,
@@ -61,14 +62,14 @@ module.exports = {
 				`- Thank you for joining. I hope you enjoy your stay here 💖`,
 			];
 
-			const embed = {
+			const embed = addFields({
 				author: {
 					name: `Welcome to ${guildMember.guild.name}`,
 					icon_url: guildMember.guild.iconURL(),
 				},
 				color: color.Blurple,
 				description: parts.join("\n"),
-			};
+			});
 
 			guildMember.roles.add(role.id);
 			console.log(`${role.id} applied to ${guildMember.id}`);

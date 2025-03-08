@@ -15,4 +15,4 @@ function getOrdinal(n) {
 		: `${n}th`;
 }
 
-exports.getOrdinal = getOrdinal;
+module.exports = { getOrdinal };

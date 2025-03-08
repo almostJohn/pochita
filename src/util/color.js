@@ -10,4 +10,4 @@ const color = {
 	Orange: 0xf47b67,
 };
 
-exports.color = color;
+module.exports = { color };

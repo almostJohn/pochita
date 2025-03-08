@@ -8,6 +8,7 @@ const {
 } = require("discord.js");
 const { color } = require("../util/color");
 const { guildConfig } = require("../util/config");
+const { addFields } = require("../util/embed");
 
 module.exports = {
 	name: Events.MessageDelete,
@@ -99,7 +100,7 @@ module.exports = {
 				);
 			}
 
-			const embed = {
+			const embed = addFields({
 				color: color.Yellow,
 				title: "Message deleted",
 				author: {
@@ -117,7 +118,7 @@ module.exports = {
 				],
 				footer: { text: message.id },
 				timestamp: new Date().toISOString(),
-			};
+			});
 
 			guildLogChannel.send({
 				embeds: [embed],

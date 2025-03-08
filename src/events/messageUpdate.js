@@ -8,6 +8,7 @@ const {
 const { diffLines, diffWords } = require("diff");
 const { color } = require("../util/color");
 const { guildConfig } = require("../util/config");
+const { addFields } = require("../util/embed");
 
 module.exports = {
 	name: Events.MessageUpdate,
@@ -112,7 +113,7 @@ module.exports = {
 				newMessage.inGuild() ? newMessage.channel.name : ""
 			}\` (${newMessage.channel.id})\n• [Jump to](${newMessage.url})
       `;
-			const embed = {
+			const embed = addFields({
 				color: color.Teal,
 				title: "Message updated",
 				author: {
@@ -128,7 +129,7 @@ module.exports = {
 						value: info,
 					},
 				],
-			};
+			});
 
 			guildLogChannel.send({
 				embeds: [embed],

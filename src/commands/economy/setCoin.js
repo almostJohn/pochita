@@ -6,8 +6,10 @@ const {
 } = require("discord.js");
 const { Users } = require("../../database");
 const { addComma } = require("../../util/addComma");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -45,13 +47,18 @@ module.exports = {
 		target.vault += amount;
 		target.save();
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const emoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
+
+		const embed = addFields({
+			color: color.DarkButNotBlack,
+			description: `Successfully set the ${emoji} **${addComma(
+				amount,
+			)}** coinst to ${targetUser.toString()}`,
+		});
 
 		await interaction.editReply({
-			content: `Successfully set the ${emoji} **${addComma(
-				amount,
-			)}** coins to ${targetUser.toString()}`,
+			embeds: [embed],
 		});
 	},
 };

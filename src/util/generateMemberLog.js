@@ -1,6 +1,7 @@
 const dayjs = require("dayjs");
 const relativeTime = require("dayjs/plugin/relativeTime.js");
 const { time, GuildMember, TimestampStyles } = require("discord.js");
+const { addFields } = require("./embed");
 
 dayjs.extend(relativeTime);
 
@@ -74,7 +75,7 @@ function generateMemberLog(member, join = true) {
 		descriptionParts.push(`• Left: ${leaveFormatted} (${sinceLeaveFormatted})`);
 	}
 
-	const embed = {
+	const embed = addFields({
 		author: {
 			name: `${member.user.tag} (${member.user.id})`,
 			icon_url: member.user.displayAvatarURL(),
@@ -87,10 +88,9 @@ function generateMemberLog(member, join = true) {
 			text: join ? "User joined" : "User left",
 		},
 		timestamp: new Date().toISOString(),
-	};
+	});
 
 	return embed;
 }
 
-exports.generateMemberLog = generateMemberLog;
-exports.colorFromDuration = colorFromDuration;
+module.exports = { generateMemberLog, colorFromDuration };

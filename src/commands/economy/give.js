@@ -4,8 +4,10 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -64,11 +66,16 @@ module.exports = {
 		await user.save();
 		await target.save();
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const goldCoinEmoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
+
+		const embed = addFields({
+			color: color.Fuchsia,
+			description: `You gave ${emoji} **${amount}** coinst to ${targetUser.toString()}`,
+		});
 
 		await interaction.editReply({
-			content: `You gave ${goldCoinEmoji} **${amount}** coins to ${targetUser.toString()}`,
+			embeds: [embed],
 		});
 	},
 };

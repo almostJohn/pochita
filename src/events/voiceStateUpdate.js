@@ -1,6 +1,7 @@
 const { Events, Client, VoiceState, TextChannel } = require("discord.js");
 const { color } = require("../util/color");
 const { guildConfig } = require("../util/config");
+const { addFields } = require("../util/embed");
 
 module.exports = {
 	name: Events.VoiceStateUpdate,
@@ -87,13 +88,13 @@ module.exports = {
 				return;
 			}
 
-			const embed = {
+			const embed = addFields({
 				title: "Voice state update",
 				color: color.Blurple,
 				author,
 				description,
 				timestamp: new Date().toISOString(),
-			};
+			});
 
 			guildLogChannel.send({ embeds: [embed] });
 		} catch (error) {

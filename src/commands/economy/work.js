@@ -4,10 +4,11 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { color } = require("../../util/color");
 const { addComma } = require("../../util/addComma");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 
 module.exports = {
 	cooldown: 1_800,
@@ -37,15 +38,20 @@ module.exports = {
 			: 0;
 		const timeDiff = (now - lastWorkTime) / 1_000;
 
-		if (timeDiff > 1_800 ** timeDiff < 1_920) {
+		let displayedStreak = user.work_streak;
+		if (timeDiff > 1_800 && timeDiff < 1_920) {
 			user.work_streak += 1;
 		} else {
 			user.work_streak = 1;
 		}
 
 		let earnings = Math.floor(Math.random() * 500) + 200;
+
+		let streakWorkApplied = false;
+
 		if (user.work_streak === 5) {
 			earnings *= 2;
+			streakWorkApplied = true;
 			user.work_streak = 0;
 		}
 
@@ -53,49 +59,27 @@ module.exports = {
 		user.last_work = new Date();
 		await user.save();
 
-		let description = "";
-
-		switch (user.work_streak) {
-			case 1:
-				description = "🔴 ⭕ ⭕ ⭕ ⭕";
-				break;
-			case 2:
-				description = "🔴 🔴 ⭕ ⭕ ⭕";
-				break;
-			case 3:
-				description = "🔴 🔴 🔴 ⭕ ⭕";
-				break;
-			case 4:
-				description = "🔴 🔴 🔴 🔴 ⭕";
-				break;
-			case 5:
-				description = "🔴 🔴 🔴 🔴 🔴";
-				break;
-			default:
-				description = "⭕ ⭕ ⭕ ⭕ ⭕";
-				break;
+		let streakDescription = ["⭕", "⭕", "⭕", "⭕", "⭕"];
+		for (let i = 0; i < displayedStreak; i++) {
+			streakDescription[i] = "🔴";
 		}
+		const streakDisplay = streakDescription.join(" ");
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const goldCoinEmoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
 
-		const embed = {
-			author: {
-				name: interaction.user.tag,
-				icon_url: interaction.user.displayAvatarURL(),
-			},
-			color: color.Blurple,
-			title: "Work Streak",
-			description,
+		const embed = addFields({
+			color: color.DarkButNotBlack,
+			description: `You worked hard and earned ${emoji} **${addComma(
+				earnings,
+			)}** coins`,
 			fields: [
 				{
-					name: "\u200B",
-					value: `You worked hard and earned ${goldCoinEmoji} **${addComma(
-						earnings,
-					)}** coins.`,
+					name: "Work Streak",
+					value: streakDisplay + (streakWorkApplied ? "🎉 x5 Bonus!" : ""),
 				},
 			],
-		};
+		});
 
 		await interaction.editReply({
 			embeds: [embed],

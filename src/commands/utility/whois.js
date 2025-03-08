@@ -8,6 +8,7 @@ const {
 const dayjs = require("dayjs");
 const { colorFromDuration } = require("../../util/generateMemberLog");
 const { color } = require("../../util/color");
+const { addFields } = require("../../util/embed");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -62,7 +63,7 @@ module.exports = {
 			);
 		}
 
-		const embed = {
+		const embed = addFields({
 			author: {
 				name: `${targetUser.tag} (${targetUser.id})`,
 				icon_url: targetUser.displayAvatarURL(),
@@ -72,7 +73,7 @@ module.exports = {
 				: color.DarkButNotBlack,
 			description: descriptionParts.join("\n"),
 			timestamp: new Date().toISOString(),
-		};
+		});
 
 		await interaction.editReply({
 			embeds: [embed],

@@ -4,8 +4,10 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 
 module.exports = {
 	cooldown: 3_600,
@@ -38,11 +40,16 @@ module.exports = {
 		target.fame += boostAmount;
 		await target.save();
 
-		const emojiId = guildConfig.emoji.chillCampIncrease;
-		const emoji = emojiFormatter("ccamp_increase", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_increase;
+		const emoji = emojiFormatter(name, id, true);
+
+		const embed = addFields({
+			color: color.Green,
+			description: `${targetUser.toString()} received a ${emoji} **${boostAmount}** fame boost`,
+		});
 
 		await interaction.editReply({
-			content: `${emoji} ${targetUser.toString()} received a 🌟 **${boostAmount}** fame boost`,
+			embeds: [embed],
 		});
 	},
 };

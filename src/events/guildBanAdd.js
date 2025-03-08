@@ -9,6 +9,7 @@ const { setTimeout: pSetTimeout } = require("node:timers/promises");
 const { color } = require("../util/color");
 const { guildConfig } = require("../util/config");
 const { AUDIT_LOG_WAIT_SECONDS } = require("../util/constants");
+const { addFields } = require("../util/embed");
 
 module.exports = {
 	name: Events.GuildBanAdd,
@@ -51,7 +52,7 @@ module.exports = {
 				`**Reason:** ${logs.reason || "No reason provided"}`,
 			];
 
-			const embed = {
+			const embed = addFields({
 				author: {
 					name: `${logs.executor.tag} (${logs.executor.id})`,
 					icon_url: logs.executor.displayAvatarURL(),
@@ -59,7 +60,7 @@ module.exports = {
 				color: color.Red,
 				description: descriptionParts.join("\n"),
 				timestamp: new Date().toISOString(),
-			};
+			});
 
 			await modLogChannel.send({ embeds: [embed] });
 		} catch (error) {

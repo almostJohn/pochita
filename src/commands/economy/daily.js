@@ -4,8 +4,10 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 
 module.exports = {
 	cooldown: 86_400,
@@ -29,11 +31,16 @@ module.exports = {
 		user.vault += dailyAmount;
 		await user.save();
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const goldCoinEmoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
+
+		const embed = addFields({
+			color: color.DarkButNotBlack,
+			description: `You claimed your daily reward ${emoji} **${dailyAmount}** coins`,
+		});
 
 		await interaction.editReply({
-			content: `You claimed your daily reward ${goldCoinEmoji} **${dailyAmount}** coins`,
+			embeds: [embed],
 		});
 	},
 };

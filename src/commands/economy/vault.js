@@ -4,8 +4,10 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 const { addComma } = require("../../util/addComma");
 
 module.exports = {
@@ -25,13 +27,16 @@ module.exports = {
 			user = await Users.create({ user_id: interaction.user.id });
 		}
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const goldCoinEmoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
+
+		const embed = addFields({
+			color: color.DarkButNotBlack,
+			description: `Your balance is ${emoji} **${addComma(user.vault)}** coins`,
+		});
 
 		await interaction.editReply({
-			content: `Your balance is ${goldCoinEmoji} **${addComma(
-				user.vault,
-			)}** coins`,
+			embeds: [embed],
 		});
 	},
 };

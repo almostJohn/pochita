@@ -1,7 +1,7 @@
 /**+
  * @param {string} name
  * @param {string} id
- * @param {boolean} [isAnimated=false]
+ * @param {boolean}
  */
 function emojiFormatter(name, id, isAnimated = true) {
 	if (isAnimated) {

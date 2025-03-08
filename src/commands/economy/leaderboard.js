@@ -4,10 +4,11 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
+const { emojiConfig } = require("../../util/config");
+const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
 const { color } = require("../../util/color");
 const { addComma } = require("../../util/addComma");
-const { guildConfig } = require("../../util/config");
-const { emojiFormatter } = require("../../util/emojiFormatter");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -31,27 +32,35 @@ module.exports = {
 			});
 		}
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const emoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
 
 		const leaderboard = topUsers
 			.map(
 				(user, index) =>
-					`- ${index + 1} <@${user.user_id}> - ${emoji} **${addComma(
+					`${index + 1}. <@${user.user_id}> - ${emoji} **${addComma(
 						user.vault,
 					)}** coins`,
 			)
 			.join("\n");
 
-		const embed = {
-			title: `${interaction.guild.name} Top 10 Richest`,
+		const embed = addFields({
+			author: {
+				name: `${interaction.guild.name} Top 10 Richest`,
+				icon_url: interaction.guild.iconURL(),
+			},
 			thumbnail: {
 				url: interaction.guild.iconURL(),
 			},
-			description: leaderboard,
-			color: color.Blurple,
+			fields: [
+				{
+					name: "\u200B",
+					value: leaderboard,
+				},
+			],
+			color: color.DarkButNotBlack,
 			footer: { text: "Keep grinding to reach the top!" },
-		};
+		});
 
 		await interaction.editReply({ embeds: [embed] });
 	},

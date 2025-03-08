@@ -13,6 +13,7 @@ const { guildConfig } = require("../util/config");
 const { AUDIT_LOG_WAIT_SECONDS } = require("../util/constants");
 const dayjs = require("dayjs");
 const relativeTime = require("dayjs/plugin/relativeTime.js");
+const { addFields } = require("../util/embed");
 
 dayjs.extend(relativeTime);
 
@@ -91,7 +92,7 @@ module.exports = {
 				`**Reason:** ${logs.reason || "No reason provided"}`,
 			];
 
-			const embed = {
+			const embed = addFields({
 				author: {
 					name: `${logs.executor.tag} (${logs.executor.id})`,
 					icon_url: logs.executor.displayAvatarURL(),
@@ -99,7 +100,7 @@ module.exports = {
 				color: color.Orange,
 				description: descriptionParts.join("\n"),
 				timestamp: new Date().toISOString(),
-			};
+			});
 
 			const message = await modLogChannel.send({
 				embeds: [embed],
@@ -119,7 +120,7 @@ module.exports = {
 					`**Reference:** [${message.id}](${message.url})`,
 				];
 
-				const timeoutEndedEmbed = {
+				const timeoutEndedEmbed = addFields({
 					author: {
 						name: `${client.user.tag} (${client.user.id})`,
 						icon_url: client.user.displayAvatarURL(),
@@ -127,7 +128,7 @@ module.exports = {
 					color: 3_092_790,
 					description: timeoutEndedDescriptionParts.join("\n"),
 					timestamp: new Date().toISOString(),
-				};
+				});
 
 				await modLogChannel.send({
 					embeds: [timeoutEndedEmbed],

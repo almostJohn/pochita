@@ -4,10 +4,11 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
-const { addComma } = require("../../util/addComma");
+const { addFields } = require("../../util/embed");
 const { color } = require("../../util/color");
+const { addComma } = require("../../util/addComma");
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -36,23 +37,35 @@ module.exports = {
 		const totalCoins = addComma(Number(user.vault));
 		const totalFamePoints = addComma(Number(user.fame));
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const emoji = emojiFormatter("ccamp_gold", emojiId);
+		const { name: cCampGoldName, id: cCampGoldId } = emojiConfig.ccamp_gold;
+		const cCampGoldEmoji = emojiFormatter(cCampGoldName, cCampGoldId, true);
+
+		const { name: cCampSparkleName, id: cCampSparkleId } =
+			emojiConfig.ccamp_sparkle;
+		const cCampSparkleEmoji = emojiFormatter(
+			cCampSparkleName,
+			cCampSparkleId,
+			true,
+		);
 
 		const descriptionParts = [
-			`# ${interaction.guild.name} Profile`,
+			`## ${interaction.guild.name} Profile`,
 			`- User: ${targetUser.toString()}`,
-			`- Coins: ${emoji} **${totalCoins}**`,
-			`- Fame Points: 🌟 **${totalFamePoints}**`,
+			`- Coins: ${cCampGoldEmoji} **${totalCoins}**`,
+			`- Fame Points: ${cCampSparkleEmoji} **${totalFamePoints}**`,
 		];
 
-		const embed = {
-			color: color.Blurple,
+		const embed = addFields({
+			author: {
+				name: targetUser.tag,
+				icon_url: targetUser.displayAvatarURL(),
+			},
+			color: color.DarkButNotBlack,
 			thumbnail: {
 				url: targetUser.displayAvatarURL(),
 			},
 			description: descriptionParts.join("\n"),
-		};
+		});
 
 		await interaction.editReply({
 			embeds: [embed],

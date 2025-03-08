@@ -4,8 +4,10 @@ const {
 	Client,
 } = require("discord.js");
 const { Users } = require("../../database");
-const { guildConfig } = require("../../util/config");
+const { emojiConfig } = require("../../util/config");
 const { emojiFormatter } = require("../../util/emojiFormatter");
+const { addFields } = require("../../util/embed");
+const { color } = require("../../util/color");
 
 module.exports = {
 	cooldown: 300,
@@ -60,11 +62,16 @@ module.exports = {
 		targetVault -= stealAmount;
 		user.vault += stealAmount;
 
-		const emojiId = guildConfig.emoji.chillCampGoldEmojiId;
-		const goldCoinEmoji = emojiFormatter("ccamp_gold", emojiId, true);
+		const { name, id } = emojiConfig.ccamp_gold;
+		const emoji = emojiFormatter(name, id, true);
+
+		const embed = addFields({
+			color: color.DarkButNotBlack,
+			description: `You stole ${emoji} **${stealAmount}** from ${targetUser.toString()}`,
+		});
 
 		await interaction.editReply({
-			content: `You stole ${goldCoinEmoji} **${stealAmount}** from ${targetUser.toString()}`,
+			embeds: [embed],
 		});
 	},
 };
