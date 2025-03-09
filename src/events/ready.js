@@ -1,4 +1,4 @@
-const { Events, Client } = require("discord.js");
+const { Events, Client, ActivityType } = require("discord.js");
 
 module.exports = {
 	name: Events.ClientReady,
@@ -6,7 +6,16 @@ module.exports = {
 	/**
 	 * @param {Client} client
 	 */
-	async execute(client, currency) {
+	execute(client) {
+		client.user.setPresence({
+			activities: [
+				{
+					name: "tickets for support",
+					type: ActivityType.Listening,
+				},
+			],
+		});
+
 		console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
 	},
 };

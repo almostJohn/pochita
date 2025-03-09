@@ -6,7 +6,6 @@ const sequelize = new Sequelize({
 });
 
 const Users = require("./models/Users.js")(sequelize, DataTypes);
-const Messages = require("./models/Messages.js")(sequelize, DataTypes);
 
 (async () => {
 	try {
@@ -17,4 +16,4 @@ const Messages = require("./models/Messages.js")(sequelize, DataTypes);
 	}
 })();
 
-module.exports = { sequelize, Users, Messages };
+module.exports = { sequelize, Users };

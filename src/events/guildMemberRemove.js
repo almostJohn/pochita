@@ -1,6 +1,7 @@
 const { Events, GuildMember, Client, TextChannel } = require("discord.js");
 const { generateMemberLog } = require("../util/generateMemberLog");
 const { guildConfig } = require("../util/config");
+const { Users } = require("../database");
 
 module.exports = {
 	name: Events.GuildMemberRemove,
@@ -8,17 +9,11 @@ module.exports = {
 	 * @param {GuildMember} guildMember
 	 * @param {Client} client
 	 */
-	execute(guildMember, client) {
+	async execute(guildMember, client) {
 		try {
-			const memberLogChannelId = guildConfig.memberLogChannelId;
-
-			if (!memberLogChannelId) {
-				return;
-			}
-
 			/** @type {TextChannel} */
 			const memberLogChannel = guildMember.guild.channels.cache.find(
-				(channel) => channel.id === memberLogChannelId,
+				(channel) => channel.id === guildConfig.memberLogChannelId,
 			);
 
 			if (!memberLogChannel) {
@@ -26,6 +21,8 @@ module.exports = {
 			}
 
 			console.log(`Member ${guildMember.id} left`);
+
+			await Users.destroy({ where: { user_id: guildMember.user.id } });
 
 			memberLogChannel.send({
 				embeds: [generateMemberLog(guildMember, false)],

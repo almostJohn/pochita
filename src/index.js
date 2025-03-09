@@ -31,6 +31,7 @@ const client = new Client({
 	}),
 });
 client.setMaxListeners(20);
+
 client.commands = new Collection();
 client.cooldowns = new Collection();
 

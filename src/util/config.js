@@ -1,9 +1,12 @@
 const guildConfig = {
-	memberLogChannelId: "1345746969775312927",
 	modLogChannelId: "1345747057285009511",
-	guildLogChannelId: "1345752044387958876",
 	mainChannelId: "1228703089972871232",
 	discordMemberId: "1347267771225870349",
+	memberLogWebhookId: "1346151452665581659",
+	guildLogWebhookId: "1346151670937288845",
+	logIgnoreChannels: "1346691943530365049",
+	memberLogChannelId: "1345746969775312927",
+	guildLogChannelId: "1345752044387958876",
 };
 
 const emojiConfig = {
