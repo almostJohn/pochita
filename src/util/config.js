@@ -4,11 +4,6 @@ const guildConfig = {
 	guildLogChannelId: "1345752044387958876",
 	mainChannelId: "1228703089972871232",
 	discordMemberId: "1347267771225870349",
-	emoji: {
-		chillCampGoldEmojiId: "1347394715552841790",
-		chillCampDecrease: "1347395480769790054",
-		chillCampIncrease: "1347395477968261271",
-	},
 };
 
 const emojiConfig = {

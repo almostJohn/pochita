@@ -18,7 +18,12 @@ const client = new Client({
 		GatewayIntentBits.GuildVoiceStates,
 		GatewayIntentBits.MessageContent,
 	],
-	partials: [Partials.GuildMember, Partials.Channel, Partials.Reaction],
+	partials: [
+		Partials.GuildMember,
+		Partials.Channel,
+		Partials.Reaction,
+		Partials.Message,
+	],
 	makeCache: Options.cacheWithLimits({
 		MessageManager: 100,
 		StageInstanceManager: 10,
