@@ -6,7 +6,6 @@ const {
 	SlashCommandBuilder,
 } = require("discord.js");
 const dayjs = require("dayjs");
-const { colorFromDuration } = require("../../util/generateMemberLog");
 const { color } = require("../../util/color");
 const { addFields } = require("../../util/embed");
 
@@ -68,9 +67,7 @@ module.exports = {
 				name: `${targetUser.tag} (${targetUser.id})`,
 				icon_url: targetUser.displayAvatarURL(),
 			},
-			color: true
-				? colorFromDuration(Date.now() - guildMember.joinedTimestamp)
-				: color.DarkButNotBlack,
+			color: color.Blurple,
 			description: descriptionParts.join("\n"),
 			timestamp: new Date().toISOString(),
 		});

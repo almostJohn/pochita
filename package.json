@@ -7,7 +7,7 @@
 		"start": "node src/index.js",
 		"dev": "nodemon src/index.js",
 		"deploy:commands": "node src/deployCommands.js",
-		"install": "npm install"
+		"migrate": "node src/database.js"
 	},
 	"keywords": [],
 	"author": "almostJohn <garcia.johngale@gmail.com>",
@@ -19,6 +19,7 @@
 		"discord.js": "^14.18.0",
 		"dotenv": "^16.4.7",
 		"nanoid": "^5.1.2",
+		"node-cron": "^3.0.3",
 		"sequelize": "^6.37.6",
 		"sqlite3": "^5.1.7"
 	},

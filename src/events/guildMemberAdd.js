@@ -1,7 +1,5 @@
-const { Events, GuildMember, Client, TextChannel } = require("discord.js");
-const { generateMemberLog } = require("../util/generateMemberLog");
+const { Events, GuildMember, Client, Webhook } = require("discord.js");
 const { guildConfig } = require("../util/config");
-const { Users } = require("../database");
 
 module.exports = {
 	name: Events.GuildMemberAdd,
@@ -11,20 +9,28 @@ module.exports = {
 	 */
 	async execute(guildMember, client) {
 		try {
-			/** @type {TextChannel} */
-			const memberLogChannel = guildMember.guild.channels.cache.find(
-				(channel) => channel.id === guildConfig.memberLogChannelId,
-			);
+			const mainChannelWebookId = guildConfig.mainChannelWebhookId;
 
-			if (!memberLogChannel) {
+			if (!mainChannelWebookId) {
 				return;
 			}
 
-			console.log(`Member ${guildMember.id} joined`);
+			/** @type {Webhook} */
+			const webhook = client.webhooks.get(mainChannelWebookId);
 
-			await Users.findOrCreate({ where: { user_id: guildMember.user.id } });
+			if (!webhook) {
+				return;
+			}
 
-			memberLogChannel.send({ embeds: [generateMemberLog(guildMember)] });
+			console.log(`Member joined ${guildMember.user.id}`);
+
+			await webhook.send({
+				content: `${guildMember.user.toString()} **(${
+					guildMember.user.tag
+				})** has joined the server.`,
+				username: client.user.username,
+				avatarURL: client.user.displayAvatarURL(),
+			});
 		} catch (error) {
 			console.error(error);
 		}

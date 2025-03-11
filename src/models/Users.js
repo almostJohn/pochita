@@ -12,23 +12,8 @@ module.exports = (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				primaryKey: true,
 			},
-			vault: {
-				type: DataTypes.INTEGER,
-				defaultValue: 0,
-				allowNull: false,
-			},
-			fame: {
-				type: DataTypes.INTEGER,
-				defaultValue: 0,
-				allowNull: false,
-			},
-			work_streak: {
-				type: DataTypes.INTEGER,
-				defaultValue: 0,
-				allowNull: false,
-			},
-			last_work: {
-				type: DataTypes.DATE,
+			birthday: {
+				type: DataTypes.DATEONLY,
 				allowNull: true,
 			},
 		},
