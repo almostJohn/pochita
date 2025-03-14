@@ -1,17 +1,17 @@
 import {
-	Client,
 	Events,
 	MessageFlags,
 	Collection,
 	time,
 	TimestampStyles,
 } from "discord.js";
+import { setTimeout } from "node:timers";
 
 export default {
 	name: Events.InteractionCreate,
 	/**
 	 * @param {import("discord.js").Interaction} interaction
-	 * @param {Client} client
+	 * @param {import("discord.js").Client} client
 	 */
 	async execute(interaction, client) {
 		if (!interaction.isChatInputCommand()) {

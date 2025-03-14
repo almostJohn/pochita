@@ -1,4 +1,4 @@
-import { Events, Client, PermissionFlagsBits, TextChannel } from "discord.js";
+import { Events, PermissionFlagsBits } from "discord.js";
 import { guildConfig } from "../util/config.js";
 import cron from "node-cron";
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ export default {
 	name: Events.ClientReady,
 	once: true,
 	/**
-	 * @param {Client} client
+	 * @param {import("discord.js").Client} client
 	 */
 	async execute(client) {
 		console.log("Caching webhooks");
@@ -67,7 +67,7 @@ export default {
 
 					await member.roles.add(birthdayRole.id);
 
-					/** @type {TextChannel} */
+					/** @type {import("discord.js").TextChannel} */
 					const channel = guild.channels.cache.find(
 						(channel) => channel.id === guildConfig.mainChannelId,
 					);

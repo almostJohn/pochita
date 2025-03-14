@@ -1,8 +1,6 @@
-import { Sequelize, DataTypes } from "sequelize";
-
 /**
- * @param {Sequelize} sequelize
- * @param {DataTypes} DataTypes
+ * @param {import("sequelize").Sequelize} sequelize
+ * @param {import("sequelize").DataTypes} DataTypes
  */
 export default (sequelize, DataTypes) => {
 	return sequelize.define(
