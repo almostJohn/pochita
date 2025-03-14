@@ -1,0 +1,36 @@
+{
+	"env": {
+		"browser": true,
+		"node": true,
+		"es2021": true
+	},
+	"extends": [
+		"eslint:recommended", // Core ESLint rules
+		"plugin:import/recommended" // Ensures clean imports
+	],
+	"plugins": ["import"],
+	"rules": {
+		"no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+		"no-console": "warn",
+		"eqeqeq": ["error", "always"],
+		"curly": "error",
+		"semi": ["error", "always"],
+		"quotes": ["error", "double"],
+		"indent": ["error", 2],
+		"comma-dangle": ["error", "always-multiline"],
+		"import/order": [
+			"error",
+			{
+				"groups": [
+					"builtin",
+					"external",
+					"internal",
+					"parent",
+					"sibling",
+					"index"
+				],
+				"newlines-between": "always"
+			}
+		]
+	}
+}
