@@ -1,8 +1,4 @@
-import {
-	SlashCommandBuilder,
-	ChatInputCommandInteraction,
-	Client,
-} from "discord.js";
+import { SlashCommandBuilder } from "discord.js";
 import { Users } from "../../database.js";
 import { addFields } from "../../util/embed.js";
 import dayjs from "dayjs";
@@ -14,10 +10,10 @@ export default {
 		.setName("birthdays")
 		.setDescription("View upcoming birthdays"),
 	/**
-	 * @param {ChatInputCommandInteraction} interaction
-	 * @param {Client} client
+	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
+	 * @param {import("discord.js").client} client
 	 */
-	async execute(interaction, client) {
+	async execute(interaction, _client) {
 		await interaction.deferReply();
 
 		const today = dayjs().format("MM-DD");
@@ -38,7 +34,7 @@ export default {
 
 		const embed = addFields({
 			color: color.Fuchsia,
-			title: `🎉 Upcoming Birthdays`,
+			title: "🎉 Upcoming Birthdays",
 			description: upcomingBirthdays,
 			footer: { text: `Requested by ${interaction.user.tag}` },
 			timestamp: new Date().toISOString(),

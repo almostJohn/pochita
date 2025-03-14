@@ -1,4 +1,4 @@
-import { GuildMember, Events, Client, Webhook } from "discord.js";
+import { Events } from "discord.js";
 import { guildConfig } from "../util/config.js";
 import { color } from "../util/color.js";
 import { addFields } from "../util/embed.js";
@@ -6,8 +6,8 @@ import { addFields } from "../util/embed.js";
 export default {
 	name: Events.GuildMemberRemove,
 	/**
-	 * @param {GuildMember} guildMember
-	 * @param {Client} client
+	 * @param {import("discord.js").GuildMember} guildMember
+	 * @param {import("discord.js").Client} client
 	 */
 	async execute(guildMember, client) {
 		try {
@@ -17,7 +17,7 @@ export default {
 				return;
 			}
 
-			/** @type {Webhook} */
+			/** @type {import("discord.js").Webhook} */
 			const webhook = client.webhooks.get(mainChannelWebookId);
 
 			if (!webhook) {

@@ -1,19 +1,14 @@
-import {
-	SlashCommandBuilder,
-	CommandInteraction,
-	Client,
-	MessageFlags,
-} from "discord.js";
+import { SlashCommandBuilder, MessageFlags } from "discord.js";
 
 export default {
 	data: new SlashCommandBuilder()
 		.setName("ping")
 		.setDescription("Health check"),
 	/**
-	 * @param {CommandInteraction<"cached">} interaction
-	 * @param {Client} client
+	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
+	 * @param {import("discord.js").Client} client
 	 */
-	async execute(interaction, client) {
+	async execute(interaction, _client) {
 		await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
 		const ping = interaction.client.ws.ping;

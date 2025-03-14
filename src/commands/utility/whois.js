@@ -1,10 +1,4 @@
-import {
-	ChatInputCommandInteraction,
-	Client,
-	time,
-	TimestampStyles,
-	SlashCommandBuilder,
-} from "discord.js";
+import { time, TimestampStyles, SlashCommandBuilder } from "discord.js";
 import dayjs from "dayjs";
 import { color } from "../../util/color.js";
 import { addFields } from "../../util/embed.js";
@@ -19,10 +13,10 @@ export default {
 			option.setName("user").setDescription("The user to look"),
 		),
 	/**
-	 * @param {ChatInputCommandInteraction} interaction
-	 * @param {Client} client
+	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
+	 * @param {import("discord.js").Client} client
 	 */
-	async execute(interaction, client) {
+	async execute(interaction, _client) {
 		await interaction.deferReply();
 
 		const targetUser = interaction.options.getUser("user") ?? interaction.user;

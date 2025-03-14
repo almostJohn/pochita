@@ -1,7 +1,5 @@
 import {
 	SlashCommandBuilder,
-	ChatInputCommandInteraction,
-	Client,
 	MessageFlags,
 	ButtonBuilder,
 	ButtonStyle,
@@ -22,10 +20,10 @@ export default {
 				.setRequired(true),
 		),
 	/**
-	 * @param {ChatInputCommandInteraction} interaction
-	 * @param {Client} client
+	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
+	 * @param {import("discord.js").Client} client
 	 */
-	async execute(interaction, client) {
+	async execute(interaction, _client) {
 		const reply = await interaction.deferReply({
 			flags: MessageFlags.Ephemeral,
 		});
@@ -72,6 +70,7 @@ export default {
 					});
 
 					return undefined;
+					// eslint-disable-next-line no-empty
 				} catch {}
 			});
 
@@ -104,7 +103,8 @@ export default {
 			} catch (error) {
 				console.error(error);
 				return await collectedInteraction.editReply({
-					content: `There was a problem saving your birthday to the database. Please try again`,
+					content:
+						"There was a problem saving your birthday to the database. Please try again",
 					components: [],
 				});
 			}
