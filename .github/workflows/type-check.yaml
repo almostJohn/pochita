@@ -10,7 +10,7 @@ on:
 
 jobs:
   type_check:
-    runs-on: ubuntu_latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
