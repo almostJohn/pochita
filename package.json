@@ -8,7 +8,7 @@
 		"dev": "nodemon src/index.js",
 		"deploy:commands": "node src/deploy.js",
 		"migrate": "node src/database.js",
-		"type-check": "tsc --noEmit"
+		"lint": "eslint ."
 	},
 	"keywords": [],
 	"author": "almostJohn <garcia.johngale@gmail.com>",
@@ -25,6 +25,7 @@
 		"sqlite3": "^5.1.7"
 	},
 	"devDependencies": {
+		"eslint": "^9.22.0",
 		"nodemon": "^3.1.9"
 	},
 	"engines": {
