@@ -1,4 +1,4 @@
-name: TypeCheck
+name: Type Check
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   type_check:
-    runs_on: ubuntu_latest
+    runs-on: ubuntu_latest
 
     steps:
       - name: Checkout repository
