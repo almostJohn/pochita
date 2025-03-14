@@ -1,5 +1,8 @@
 import { GuildMember, Events, Client, Webhook } from "discord.js";
 import { guildConfig } from "../util/config.js";
+import { color } from "../util/color.js";
+import { colorFromDuration } from "../util/colorFromDuration.js";
+import { addFields } from "../util/embed.js";
 
 export default {
 	name: Events.GuildMemberAdd,
@@ -22,12 +25,19 @@ export default {
 				return;
 			}
 
+			const embed = addFields({
+				color: true
+					? colorFromDuration(Date.now() - guildMember.user.createdTimestamp)
+					: color.DarkButNotBlack,
+				description: `${guildMember.user.toString()} - \`${
+					guildMember.user.tag
+				}\` has joined the server.`,
+			});
+
 			console.log(`Member joined ${guildMember.user.id}`);
 
 			await webhook.send({
-				content: `${guildMember.user.toString()} **(${
-					guildMember.user.tag
-				})** has joined the server.`,
+				embeds: [embed],
 				username: client.user.username,
 				avatarURL: client.user.displayAvatarURL(),
 			});
