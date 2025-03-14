@@ -1,14 +1,10 @@
-const { APIEmbed, APIEmbedField } = require("discord.js");
-
 /**
- * @param {APIEmbed} embed
- * @param  {...APIEmbedField[]} data
+ * @param {import("discord.js").APIEmbed} embed
+ * @param  {...import("discord.js").APIEmbedField[]} data
  */
-function addFields(embed, ...data) {
+export function addFields(embed, ...data) {
 	return {
 		...embed,
 		fields: [...(embed.fields ?? []), ...data],
 	};
 }
-
-module.exports = { addFields };

@@ -1,4 +1,4 @@
-const color = {
+export const color = {
 	Blurple: 0x5865f2,
 	Green: 0x57f287,
 	Red: 0xed4245,
@@ -9,5 +9,3 @@ const color = {
 	Teal: 0x45ddc0,
 	Orange: 0xf47b67,
 };
-
-module.exports = { color };

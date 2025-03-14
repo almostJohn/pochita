@@ -1,11 +1,11 @@
-const {
+import {
 	SlashCommandBuilder,
 	CommandInteraction,
 	Client,
 	MessageFlags,
-} = require("discord.js");
+} from "discord.js";
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName("ping")
 		.setDescription("Health check"),

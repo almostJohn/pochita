@@ -1,13 +1,17 @@
-require("dotenv").config();
-const {
+import "dotenv/config.js";
+import {
 	Client,
 	GatewayIntentBits,
 	Options,
 	Partials,
 	Collection,
-} = require("discord.js");
-const fs = require("node:fs");
-const path = require("node:path");
+} from "discord.js";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const client = new Client({
 	intents: [
@@ -51,8 +55,8 @@ try {
 			.readdirSync(commandsPath)
 			.filter((file) => file.endsWith(".js"));
 		for (const file of commandFiles) {
-			const filePath = path.join(commandsPath, file);
-			const command = require(filePath);
+			const filePath = pathToFileURL(path.join(commandsPath, file)).href;
+			const { default: command } = await import(filePath);
 			console.log(`Registering command: ${command.data.name}`);
 
 			if ("data" in command && "execute" in command) {
@@ -66,8 +70,8 @@ try {
 	}
 
 	for (const file of eventFiles) {
-		const filePath = path.join(eventsPath, file);
-		const event = require(filePath);
+		const filePath = pathToFileURL(path.join(eventsPath, file)).href;
+		const { default: event } = await import(filePath);
 		console.log(`Registering event: ${event.name}`);
 
 		if (event.disabled) {

@@ -1,10 +1,10 @@
-const { Sequelize, DataTypes } = require("sequelize");
+import { Sequelize, DataTypes } from "sequelize";
 
 /**
  * @param {Sequelize} sequelize
  * @param {DataTypes} DataTypes
  */
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
 	return sequelize.define(
 		"users",
 		{

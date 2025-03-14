@@ -6,13 +6,14 @@
 	"scripts": {
 		"start": "node src/index.js",
 		"dev": "nodemon src/index.js",
-		"deploy:commands": "node src/deployCommands.js",
-		"migrate": "node src/database.js"
+		"deploy:commands": "node src/deploy.js",
+		"migrate": "node src/database.js",
+		"type-check": "tsc --noEmit"
 	},
 	"keywords": [],
 	"author": "almostJohn <garcia.johngale@gmail.com>",
-	"license": "ISC",
-	"type": "commonjs",
+	"license": "MIT",
+	"type": "module",
 	"dependencies": {
 		"dayjs": "^1.11.13",
 		"diff": "^7.0.0",

@@ -1,4 +1,4 @@
-const {
+import {
 	SlashCommandBuilder,
 	ChatInputCommandInteraction,
 	Client,
@@ -7,11 +7,11 @@ const {
 	ButtonStyle,
 	ActionRowBuilder,
 	ComponentType,
-} = require("discord.js");
-const { Users } = require("../../database");
-const { nanoid } = require("nanoid");
+} from "discord.js";
+import { Users } from "../../database.js";
+import { nanoid } from "nanoid";
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName("add_birthday")
 		.setDescription("Add your birthday")

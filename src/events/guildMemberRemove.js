@@ -1,7 +1,7 @@
-const { Events, GuildMember, Client, Webhook } = require("discord.js");
-const { guildConfig } = require("../util/config");
+import { GuildMember, Events, Client, Webhook } from "discord.js";
+import { guildConfig } from "../util/config.js";
 
-module.exports = {
+export default {
 	name: Events.GuildMemberRemove,
 	/**
 	 * @param {GuildMember} guildMember

@@ -1,15 +1,15 @@
-const {
+import {
 	SlashCommandBuilder,
 	ChatInputCommandInteraction,
 	Client,
-} = require("discord.js");
-const { Users } = require("../../database");
-const { addFields } = require("../../util/embed");
-const dayjs = require("dayjs");
-const { Op } = require("sequelize");
-const { color } = require("../../util/color");
+} from "discord.js";
+import { Users } from "../../database.js";
+import { addFields } from "../../util/embed.js";
+import dayjs from "dayjs";
+import { Op } from "sequelize";
+import { color } from "../../util/color.js";
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName("birthdays")
 		.setDescription("View upcoming birthdays"),

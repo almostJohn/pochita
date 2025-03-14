@@ -1,17 +1,16 @@
-const {
+import {
 	Client,
-	Interaction,
 	Events,
 	MessageFlags,
 	Collection,
 	time,
 	TimestampStyles,
-} = require("discord.js");
+} from "discord.js";
 
-module.exports = {
+export default {
 	name: Events.InteractionCreate,
 	/**
-	 * @param {Interaction} interaction
+	 * @param {import("discord.js").Interaction} interaction
 	 * @param {Client} client
 	 */
 	async execute(interaction, client) {

@@ -1,15 +1,15 @@
-const {
+import {
 	ChatInputCommandInteraction,
 	Client,
 	time,
 	TimestampStyles,
 	SlashCommandBuilder,
-} = require("discord.js");
-const dayjs = require("dayjs");
-const { color } = require("../../util/color");
-const { addFields } = require("../../util/embed");
+} from "discord.js";
+import dayjs from "dayjs";
+import { color } from "../../util/color.js";
+import { addFields } from "../../util/embed.js";
 
-module.exports = {
+export default {
 	data: new SlashCommandBuilder()
 		.setName("whois")
 		.setDescription(

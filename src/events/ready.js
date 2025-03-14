@@ -1,16 +1,11 @@
-const {
-	Events,
-	Client,
-	PermissionFlagsBits,
-	TextChannel,
-} = require("discord.js");
-const { guildConfig } = require("../util/config");
-const cron = require("node-cron");
-const dayjs = require("dayjs");
-const { Users } = require("../database");
-const { Op } = require("sequelize");
+import { Events, Client, PermissionFlagsBits, TextChannel } from "discord.js";
+import { guildConfig } from "../util/config.js";
+import cron from "node-cron";
+import dayjs from "dayjs";
+import { Users } from "../database.js";
+import { Op } from "sequelize";
 
-module.exports = {
+export default {
 	name: Events.ClientReady,
 	once: true,
 	/**

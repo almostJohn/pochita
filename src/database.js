@@ -1,11 +1,21 @@
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = new Sequelize({
+import { Sequelize, DataTypes } from "sequelize";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import path from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export const sequelize = new Sequelize({
 	dialect: "sqlite",
 	storage: "database.sqlite",
 	logging: false,
 });
 
-const Users = require("./models/Users.js")(sequelize, DataTypes);
+const { default: UsersModel } = await import(
+	pathToFileURL(path.join(__dirname, "./models/Users.js")).href
+);
+
+export const Users = UsersModel(sequelize, DataTypes);
 
 (async () => {
 	try {
@@ -15,5 +25,3 @@ const Users = require("./models/Users.js")(sequelize, DataTypes);
 		console.error(error);
 	}
 })();
-
-module.exports = { sequelize, Users };
