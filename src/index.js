@@ -57,10 +57,10 @@ try {
 		for (const file of commandFiles) {
 			const filePath = pathToFileURL(path.join(commandsPath, file)).href;
 			const { default: command } = await import(filePath);
-			console.log(`Registering command: ${command.data.name}`);
+			console.log(`Registering command: ${command.name}`);
 
-			if ("data" in command && "execute" in command) {
-				client.commands.set(command.data.name, command);
+			if ("execute" in command) {
+				client.commands.set(command.name, command);
 			} else {
 				console.log(
 					`[WARNING] The command at ${filePath} is missing a "required" data or "execute" property`,

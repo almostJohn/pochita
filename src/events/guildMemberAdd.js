@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { guildConfig } from "../util/config.js";
-import { color } from "../util/color.js";
+import { COLOR } from "../constants.js";
 import { colorFromDuration } from "../util/colorFromDuration.js";
 import { addFields } from "../util/embed.js";
 
@@ -25,11 +25,12 @@ export default {
 				return;
 			}
 
+			let joined = true;
+
 			const embed = addFields({
-				// eslint-disable-next-line no-constant-condition
-				color: true
+				color: joined
 					? colorFromDuration(Date.now() - guildMember.user.createdTimestamp)
-					: color.DarkButNotBlack,
+					: COLOR.DarkButNotBlack,
 				description: `${guildMember.user.toString()} - \`${
 					guildMember.user.tag
 				}\` has joined the server.`,
