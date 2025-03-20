@@ -15,6 +15,7 @@ const { default: UsersModel } = await import(
 	pathToFileURL(path.join(__dirname, "./models/Users.js")).href
 );
 
+/** @type {import("sequelize").ModelStatic<import("./models/Users.js").Users>} */
 export const Users = UsersModel(sequelize, DataTypes);
 
 (async () => {

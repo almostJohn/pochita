@@ -1,6 +1,13 @@
 import { MAX_TRUST_ACCOUNT_AGE } from "../constants.js";
 
 /**
+ * @param {number} length
+ */
+export function formatNumberToStringWithComma(length) {
+	return length.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+/**
  * @param {number} duration
  */
 export function colorFromDuration(duration) {
@@ -24,4 +31,12 @@ export function colorFromDuration(duration) {
 	blue += (255 - blue) * tintFactor;
 
 	return (red << 16) + (green << 8) + blue;
+}
+
+/**
+ * @param {number} min
+ * @param {number} max
+ */
+export function randomizeNumber(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }

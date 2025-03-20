@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { guildConfig } from "../util/config.js";
-import { color } from "../util/color.js";
+import { COLOR } from "../constants.js";
 import { addFields } from "../util/embed.js";
 
 export default {
@@ -25,7 +25,7 @@ export default {
 			}
 
 			const embed = addFields({
-				color: color.DarkButNotBlack,
+				color: COLOR.DarkButNotBlack,
 				description: `${guildMember.user.toString()} - \`${
 					guildMember.user.tag
 				}\` has left the server.`,

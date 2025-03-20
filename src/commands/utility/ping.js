@@ -1,21 +1,16 @@
-import { SlashCommandBuilder, MessageFlags } from "discord.js";
+import { MessageFlags } from "discord.js";
 
 export default {
-	data: new SlashCommandBuilder()
-		.setName("ping")
-		.setDescription("Health check"),
+	name: "ping",
 	/**
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("discord.js").Client} client
+	 * @param {import("../../types/ArgumentsOf.js").ArgumentsOf<typeof import("../../interactions/index.js").PingSlashCommand>} args
 	 */
-	async execute(interaction, _client) {
-		await interaction.deferReply({ flags: MessageFlags.Ephemeral });
-
-		const ping = interaction.client.ws.ping;
-		const status = ping >= 100 ? "Health is not ok 📉" : "Health is ok 📈";
-
-		await interaction.editReply({
-			content: `${status}, ping: \`${ping}\` ms`,
+	async execute(interaction, args) {
+		await interaction.deferReply({
+			flags: args.hide ? MessageFlags.Ephemeral : undefined,
 		});
+
+		await interaction.editReply({ content: "ok" });
 	},
 };

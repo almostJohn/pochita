@@ -1,20 +1,20 @@
-import { SlashCommandBuilder } from "discord.js";
 import { Users } from "../../database.js";
 import { addFields } from "../../util/embed.js";
 import dayjs from "dayjs";
 import { Op } from "sequelize";
-import { color } from "../../util/color.js";
+import { COLOR } from "../../constants.js";
+import { MessageFlags } from "discord.js";
 
 export default {
-	data: new SlashCommandBuilder()
-		.setName("birthdays")
-		.setDescription("View upcoming birthdays"),
+	name: "birthdays",
 	/**
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("discord.js").client} client
+	 * @param {import("../../types/ArgumentsOf.js").ArgumentsOf<typeof import("../../interactions/index.js").BirthdaysSlashCommand>} args
 	 */
-	async execute(interaction, _client) {
-		await interaction.deferReply();
+	async execute(interaction, args) {
+		await interaction.deferReply({
+			flags: args.hide ? MessageFlags.Ephemeral : undefined,
+		});
 
 		const today = dayjs().format("MM-DD");
 
@@ -33,13 +33,15 @@ export default {
 			.join("\n");
 
 		const embed = addFields({
-			color: color.Fuchsia,
-			title: "🎉 Upcoming Birthdays",
+			color: COLOR.Fuchsia,
+			title: "🎉 Upcoming birthdays",
 			description: upcomingBirthdays,
-			footer: { text: `Requested by ${interaction.user.tag}` },
+			footer: { text: `requested by ${interaction.user.tag}` },
 			timestamp: new Date().toISOString(),
 		});
 
-		await interaction.editReply({ embeds: [embed] });
+		await interaction.editReply({
+			embeds: [embed],
+		});
 	},
 };

@@ -6,6 +6,7 @@ import {
 	TimestampStyles,
 } from "discord.js";
 import { setTimeout } from "node:timers";
+import { transformInteraction } from "../util/transformInteraction.js";
 
 export default {
 	name: Events.InteractionCreate,
@@ -13,12 +14,19 @@ export default {
 	 * @param {import("discord.js").Interaction} interaction
 	 * @param {import("discord.js").Client} client
 	 */
-	async execute(interaction, client) {
-		if (!interaction.isChatInputCommand()) {
+	async execute(interaction, _client) {
+		if (
+			!interaction.isChatInputCommand() &&
+			!interaction.isUserContextMenuCommand() &&
+			!interaction.isMessageContextMenuCommand() &&
+			!interaction.isAutocomplete()
+		) {
 			return;
 		}
 
-		const command = interaction.client.commands.get(interaction.commandName);
+		const command = interaction.client.commands.get(
+			interaction.commandName.toLowerCase(),
+		);
 
 		if (!command) {
 			return;
@@ -26,12 +34,12 @@ export default {
 
 		const { cooldowns } = interaction.client;
 
-		if (!cooldowns.has(command.data.name)) {
-			cooldowns.set(command.data.name, new Collection());
+		if (!cooldowns.has(command.name)) {
+			cooldowns.set(command.name, new Collection());
 		}
 
 		const now = Date.now();
-		const timestamps = cooldowns.get(command.data.name);
+		const timestamps = cooldowns.get(command.name);
 		const defaultCooldownDuration = 3;
 		const cooldownAmount =
 			(command.cooldown ?? defaultCooldownDuration) * 1_000;
@@ -44,7 +52,7 @@ export default {
 				const expiredTimestamp = Math.round(expirationTime / 1_000);
 				return interaction.reply({
 					content: `Please wait, you are on cooldown for \`${
-						command.data.name
+						command.name
 					}\`. You can use it again ${time(
 						expiredTimestamp,
 						TimestampStyles.RelativeTime,
@@ -58,19 +66,32 @@ export default {
 		setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
 
 		try {
-			await command.execute(interaction, client);
-		} catch (error) {
-			console.error(error);
-			if (interaction.replied || interaction.deferred) {
-				await interaction.followUp({
-					content: "There was an error while executing this command",
-					flags: MessageFlags.Ephemeral,
-				});
-			} else {
-				await interaction.reply({
-					content: "There was an error while executing this command",
-					flags: MessageFlags.Ephemeral,
-				});
+			await command.execute(
+				interaction,
+				transformInteraction(interaction.options.data),
+			);
+		} catch (error_) {
+			/** @type {Error} */
+			const error = error_;
+			console.error(error, error.message);
+
+			try {
+				if (interaction.isAutocomplete()) {
+					return;
+				}
+
+				if (!interaction.deferred || !interaction.replied) {
+					console.warn(
+						"Command interaction has not been deferred before throwing",
+					);
+					await interaction.deferReply({ flags: MessageFlags.Ephemeral });
+				}
+
+				await interaction.editReply({ content: error.message, components: [] });
+			} catch (error__) {
+				/** @type {Error} */
+				const subError = error__;
+				console.error(subError, subError.message);
 			}
 		}
 	},
