@@ -20,6 +20,7 @@ export const Users = UsersModel(sequelize, DataTypes);
 
 (async () => {
 	try {
+		console.log("Database Synching Started");
 		await sequelize.sync({ alter: true });
 		console.log("Database Synced Success");
 	} catch (error) {

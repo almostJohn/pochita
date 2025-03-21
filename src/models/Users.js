@@ -5,6 +5,15 @@
  * 	vault: number;
  * 	points: number;
  * 	fame: number;
+ * 	pets: {
+ * 		name: string;
+ * 		type: "rocket" | "mamoth" | "magma" | "bomb" | "trex";
+ * 		level: number;
+ * 		experience: number;
+ * 		hp: number;
+ * 		max_hp: number;
+ * 		pet_icon_url?: string | undefined;
+ * 	} | null;
  * }>} Users
  */
 
@@ -38,6 +47,10 @@ export default (sequelize, DataTypes) => {
 				type: DataTypes.INTEGER,
 				defaultValue: 0,
 				allowNull: false,
+			},
+			pets: {
+				type: DataTypes.JSON,
+				defaultValue: null,
 			},
 		},
 		{

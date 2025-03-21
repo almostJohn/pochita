@@ -59,7 +59,7 @@
 /**
  * @template O
  * @typedef {(
- *  O extends readonly any[] ? UnionToIntersection<OptionToObject<O[number], P>> : never
+ *  O extends readonly any[] ? UnionToIntersection<OptionToObject<O[number]>> : never
  * )} ArgumentsOfRaw
  */
 
@@ -97,7 +97,7 @@
  */
 
 /**
- * @template C
+ * @template {Command} C
  * @typedef {(
  *  C extends { options: readonly Option[] }
  *    ? UnionToIntersection<OptionToObject<C["options"][number]>>

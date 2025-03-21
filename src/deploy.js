@@ -1,6 +1,9 @@
 import "dotenv/config.js";
 import { REST, Routes } from "discord.js";
 import {
+	// admin
+	SetPointsSlashCommand,
+
 	// economy
 	DailySlashCommand,
 	BoostSlashCommand,
@@ -15,7 +18,9 @@ import {
 	LeaderboardSlashCommand,
 	SlotSlashCommand,
 	WorkSlashCommand,
-	SetPointsSlashCommand,
+	GetAPetSlashCommand,
+	PetSlashCommand,
+	ProfileSlashCommand,
 
 	// utility
 	BirthdaysSlashCommand,
@@ -46,6 +51,9 @@ const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
 				LeaderboardSlashCommand,
 				SlotSlashCommand,
 				WorkSlashCommand,
+				GetAPetSlashCommand,
+				PetSlashCommand,
+				ProfileSlashCommand,
 
 				// utility
 				BirthdaysSlashCommand,

@@ -76,7 +76,7 @@ export default {
 					defaults: { birthday: args.date },
 				});
 
-				if (!created) {
+				if (created) {
 					await user.update({ birthday: args.date });
 					return await collectedInteraction.editReply({
 						content: `Your birthday has been updated to \`${args.date}\``,

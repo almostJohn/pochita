@@ -15,4 +15,7 @@ export * from "./economy/daily.js";
 export * from "./economy/leaderboard.js";
 export * from "./economy/slot.js";
 export * from "./economy/work.js";
+export * from "./economy/get_a_pet.js";
+export * from "./economy/pet.js";
+export * from "./economy/profile.js";
 export * from "./admin/set_points.js";
