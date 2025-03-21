@@ -30,3 +30,11 @@ export const ERROR_RESPONSES = /** @type {const} */ ({
 	timedOut: "Action timer ran out.",
 	invalidDateFormat: "Invalid date format. Please use `YYYY-MM-DD`",
 });
+
+export const PET_NAMES = /** @type {const} */ ({
+	rocket: "Rocket",
+	mamoth: "Mamoth",
+	magma: "Magma",
+	bomb: "Bomb",
+	trex: "Trex",
+});
