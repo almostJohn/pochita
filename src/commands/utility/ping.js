@@ -3,8 +3,8 @@ import { MessageFlags } from "discord.js";
 export default {
 	name: "ping",
 	/**
-	 * @param {import("discord.js").ChatInputCommandInteraction<"cached">} interaction
-	 * @param {import("../../types/ArgumentsOf.js").ArgumentsOf<typeof import("../../interactions/index.js").PingCommand>} args
+	 * @param {import("../../types/Interaction.js").InteractionParam} interaction
+	 * @param {import("../../types/Interaction.js").ArgsParam<typeof import("../../interactions/index.js").PingCommand>} args
 	 */
 	async execute(interaction, args) {
 		await interaction.deferReply({

@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType } from "discord.js";
 
 /**
- * @template {import("../types/ArgumentsOf.js").Command} C
+ * @template {import("../types/ArgumentsOf.js").CommandPayload} C
  * @param {readonly import("discord.js").CommandInteractionOption<C>[]} options
  * @returns {import("../types/ArgumentsOf.js").ArgumentsOf<C>}
  */

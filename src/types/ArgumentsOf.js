@@ -1,8 +1,7 @@
 /**
- * @typedef {{
- *   name: string;
- *   type?: import("discord.js").ApplicationCommandType | undefined;
- * }} Command
+ * @typedef {Object} CommandPayload
+ * @property {string} name
+ * @property {import("discord.js").ApplicationCommandType | undefined} [type]
  */
 
 /**
@@ -97,7 +96,7 @@
  */
 
 /**
- * @template {Command} C
+ * @template {CommandPayload} C
  * @typedef {(
  *  C extends { options: readonly Option[] }
  *    ? UnionToIntersection<OptionToObject<C["options"][number]>>
