@@ -1,11 +1,11 @@
 import {
-	ApplicationCommandOptionType,
 	ApplicationCommandType,
+	ApplicationCommandOptionType,
 } from "discord.js";
 
-export const PingSlashCommand = /** @type {const} */ ({
+export const PingCommand = /** @type {const} */ ({
 	name: "ping",
-	description: "Health check.",
+	description: "Health check",
 	type: ApplicationCommandType.ChatInput,
 	options: [
 		{
