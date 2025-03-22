@@ -1,7 +1,7 @@
 {
-	"name": "makima",
+	"name": "pochita",
 	"version": "1.0.0",
-	"description": "Makima the discord bot",
+	"description": "Pochita the discord bot",
 	"main": "index.js",
 	"scripts": {
 		"start": "node src/index.js",
