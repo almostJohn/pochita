@@ -21,15 +21,25 @@ export default {
 				return;
 			}
 
-			const mainChannelWebhookId = guildConfig.mainChannelWebhookId;
+			const { memberLogWebhookId, guildLogWebhookId } = guildConfig;
 
 			const webhooks = await guild.fetchWebhooks();
 
-			if (mainChannelWebhookId) {
-				const webhook = webhooks.get(mainChannelWebhookId);
+			if (memberLogWebhookId) {
+				const webhook = webhooks.get(memberLogWebhookId);
 
 				if (!webhook) {
 					continue;
+				}
+
+				client.webhooks.set(webhook.id, webhook);
+			}
+
+			if (guildLogWebhookId) {
+				const webhook = webhooks.get(guildLogWebhookId);
+
+				if (!webhook) {
+					return;
 				}
 
 				client.webhooks.set(webhook.id, webhook);

@@ -1,3 +1,4 @@
+import { server } from "./sub/server.js";
 import { user } from "./sub/user.js";
 
 export default {
@@ -14,6 +15,7 @@ export default {
 			}
 
 			case "server": {
+				await server(interaction, args.server);
 				break;
 			}
 		}
