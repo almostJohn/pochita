@@ -86,6 +86,8 @@ try {
 	}
 
 	client.login(process.env.DISCORD_BOT_TOKEN);
-} catch (error) {
-	console.error(error);
+} catch (error_) {
+	/** @type {Error} */
+	const error = error_;
+	console.error(error, error.message);
 }

@@ -1,7 +1,6 @@
 import { Events } from "discord.js";
 import { guildConfig } from "../util/config.js";
-import { COLOR } from "../constants.js";
-import { addFields } from "../util/embed.js";
+import { generateMemberLog } from "../util/generateMemberLog.js";
 
 export default {
 	name: Events.GuildMemberRemove,
@@ -11,35 +10,30 @@ export default {
 	 */
 	async execute(guildMember, client) {
 		try {
-			const mainChannelWebookId = guildConfig.mainChannelWebhookId;
+			const { memberLogWebhookId } = guildConfig;
 
-			if (!mainChannelWebookId) {
+			if (!memberLogWebhookId) {
 				return;
 			}
 
 			/** @type {import("discord.js").Webhook} */
-			const webhook = client.webhooks.get(mainChannelWebookId);
+			const webhook = client.webhooks.get(memberLogWebhookId);
 
 			if (!webhook) {
 				return;
 			}
 
-			const embed = addFields({
-				color: COLOR.DarkButNotBlack,
-				description: `${guildMember.user.toString()} - \`${
-					guildMember.user.tag
-				}\` has left the server.`,
-			});
-
 			console.log(`Member left ${guildMember.user.id}`);
 
 			await webhook.send({
-				embeds: [embed],
+				embeds: [generateMemberLog(guildMember, false)],
 				username: client.user.username,
 				avatarURL: client.user.displayAvatarURL(),
 			});
-		} catch (error) {
-			console.error(error);
+		} catch (error_) {
+			/** @type {Error} */
+			const error = error_;
+			console.error(error, error.message);
 		}
 	},
 };

@@ -13,9 +13,3 @@ export const COLOR = /** @type {const} */ ({
 export const MAX_TRUST_ACCOUNT_AGE = 1_000 * 60 * 60 * 24 * 7 * 4;
 
 export const TAB = /** @type {const} */ ("\u200B \u200B \u200B");
-
-export const ERROR_RESPONSES = /** @type {const} */ ({
-	targetUserNotFound: "The given member is not in this guild.",
-	globalError: "Something went wrong. Please try again.",
-	timedOut: "Action timer ran out.",
-});
