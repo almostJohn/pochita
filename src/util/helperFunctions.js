@@ -40,3 +40,14 @@ export function colorFromDuration(duration) {
 export function randomizeNumber(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+/**
+ * @param {Date} date
+ */
+export function formatDate(date) {
+	return new Intl.DateTimeFormat("en-US", {
+		year: "numeric",
+		month: "long",
+		day: "numeric",
+	}).format(date);
+}
