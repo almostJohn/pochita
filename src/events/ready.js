@@ -1,5 +1,6 @@
 import { Events, PermissionFlagsBits } from "discord.js";
 import { guildConfig } from "../util/config.js";
+import { checkBirthdays } from "../util/checkBirthdays.js";
 
 export default {
 	name: Events.ClientReady,
@@ -45,6 +46,8 @@ export default {
 				client.webhooks.set(webhook.id, webhook);
 			}
 		}
+
+		await checkBirthdays(client);
 
 		console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
 	},

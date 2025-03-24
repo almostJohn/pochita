@@ -4,6 +4,7 @@ import {
 	// utility
 	PingCommand,
 	InfoCommand,
+	BirthdayCommand,
 } from "./interactions/index.js";
 
 const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
@@ -17,6 +18,7 @@ const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
 				// utility
 				PingCommand,
 				InfoCommand,
+				BirthdayCommand,
 			],
 		});
 

@@ -1,5 +1,5 @@
-import { server } from "./sub/server.js";
-import { user } from "./sub/user.js";
+import { server } from "./sub/user/server.js";
+import { user } from "./sub/user/user.js";
 
 export default {
 	name: "info",

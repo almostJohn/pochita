@@ -1,15 +1,15 @@
 import { MessageFlags } from "discord.js";
-import { addFields } from "../../../util/embed.js";
+import { addFields } from "../../../../util/embed.js";
 import {
 	applyUserInfo,
 	applyApplicationInfo,
 	applyMemberInfo,
-} from "../../../util/userInfo.js";
-import { COLOR } from "../../../constants.js";
+} from "../../../../util/userInfo.js";
+import { COLOR } from "../../../../constants.js";
 
 /**
- * @param {import("../../../types/Interaction.js").InteractionParam} interaction
- * @param {import("../../../types/Interaction.js").ArgsParam<typeof import("../../../interactions/index.js").InfoCommand>["user"]} args
+ * @param {import("../../../../types/Interaction.js").InteractionParam} interaction
+ * @param {import("../../../../types/Interaction.js").ArgsParam<typeof import("../../../../interactions/index.js").InfoCommand>["user"]} args
  */
 export async function user(interaction, args) {
 	await interaction.deferReply({
