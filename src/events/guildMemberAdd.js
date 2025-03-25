@@ -1,6 +1,7 @@
 import { Events } from "discord.js";
 import { guildConfig } from "../util/config.js";
 import { generateMemberLog } from "../util/generateMemberLog.js";
+import { logger } from "../logger.js";
 
 export default {
 	name: Events.GuildMemberAdd,
@@ -23,7 +24,9 @@ export default {
 				return;
 			}
 
-			console.log(`Member joined ${guildMember.user.id}`);
+			logger.info(`Member joined ${guildMember.user.id}`, {
+				memberId: guildMember.id,
+			});
 
 			await webhook.send({
 				embeds: [generateMemberLog(guildMember)],
@@ -31,8 +34,7 @@ export default {
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {
-			/** @type {Error} */
-			const error = error_;
+			const error = /** @type {Error} */ (error_);
 			console.error(error, error.message);
 		}
 	},
