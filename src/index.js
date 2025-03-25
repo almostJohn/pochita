@@ -9,6 +9,7 @@ import {
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { logger } from "./logger.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,22 +58,24 @@ try {
 		for (const file of commandFiles) {
 			const filePath = pathToFileURL(path.join(commandsPath, file)).href;
 			const { default: command } = await import(filePath);
-			console.log(`Registering command: ${command.name}`);
+			logger.info(`[command] registering ${command.name}`);
 
 			if ("execute" in command) {
 				client.commands.set(command.name, command);
 			} else {
-				console.log(
-					`[WARNING] The command at ${filePath} is missing a "required" data or "execute" property`,
+				logger.warn(
+					`[warning] [command] ${filePath} is missing a "required" data or "execute" property`,
 				);
 			}
+
+			logger.success(`[command] registered ${command.name}`);
 		}
 	}
 
 	for (const file of eventFiles) {
 		const filePath = pathToFileURL(path.join(eventsPath, file)).href;
 		const { default: event } = await import(filePath);
-		console.log(`Registering event: ${event.name}`);
+		logger.info(`[event] registering ${event.name}`);
 
 		if (event.disabled) {
 			continue;
@@ -83,10 +86,12 @@ try {
 		} else {
 			client.on(event.name, (...args) => event.execute(...args, client));
 		}
+
+		logger.success(`[event] registered ${event.name}`);
 	}
 
 	client.login(process.env.DISCORD_BOT_TOKEN);
 } catch (error_) {
 	const error = /** @type {Error} */ (error_);
-	console.error(error, error.message);
+	logger.error(error.message);
 }

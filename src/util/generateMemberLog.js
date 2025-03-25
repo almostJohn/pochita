@@ -22,10 +22,10 @@ export function generateMemberLog(guildMember, joined = true) {
 	);
 
 	const parts = [
-		`- Username: ${guildMember.user.toString()} - ${inlineCode(
+		`• Username: ${guildMember.user.toString()} - ${inlineCode(
 			guildMember.user.tag,
 		)} (${guildMember.user.id})`,
-		`- Created: ${createdFormatted} (${sinceCreatedFormatted})`,
+		`• Created: ${createdFormatted} (${sinceCreatedFormatted})`,
 	];
 
 	if (guildMember.joinedTimestamp) {
@@ -38,7 +38,7 @@ export function generateMemberLog(guildMember, joined = true) {
 			TimestampStyles.ShortDateTime,
 		);
 
-		parts.push(`- Joined: ${joinFormatted} (${sinceJoinFormatted})`);
+		parts.push(`• Joined: ${joinFormatted} (${sinceJoinFormatted})`);
 	}
 
 	if (!joined) {
@@ -48,7 +48,7 @@ export function generateMemberLog(guildMember, joined = true) {
 		);
 		const leftFormatted = time(dayjs().unix(), TimestampStyles.ShortDateTime);
 
-		parts.push(`- Left: ${leftFormatted} (${sinceLeftFormatted})`);
+		parts.push(`• Left: ${leftFormatted} (${sinceLeftFormatted})`);
 	}
 
 	const embed = addFields({
