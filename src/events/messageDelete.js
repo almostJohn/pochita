@@ -68,6 +68,7 @@ export default {
 					name: `${message.author.tag} (${message.author.id})`,
 					icon_url: message.author.displayAvatarURL(),
 				},
+				title: "Message deleted",
 				color: COLOR.Teal,
 				description: `${
 					message.content.length ? message.content : "No message content"
