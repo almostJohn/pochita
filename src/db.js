@@ -23,15 +23,9 @@ const sequelize = new Sequelize(
 const { default: UsersModel } = await import(
 	pathToFileURL(path.join(__dirname, "./models/Users.js")).href
 );
-const { default: CasesModel } = await import(
-	pathToFileURL(path.join(__dirname, "./models/Cases.js")).href
-);
 
 /** @type {import("sequelize").ModelStatic<import("./models/Users.js").UsersModel>} */
 export const Users = UsersModel(sequelize, DataTypes);
-
-/** @type {import("sequelize").ModelStatic<import("./models/Cases.js").CasesModel>} */
-export const Cases = CasesModel(sequelize, DataTypes);
 
 (async () => {
 	try {

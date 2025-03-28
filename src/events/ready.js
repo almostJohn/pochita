@@ -1,6 +1,7 @@
 import { Events, PermissionFlagsBits } from "discord.js";
 import { guildConfig } from "../util/config.js";
 import { checkBirthdays } from "../util/checkBirthdays.js";
+import { logger } from "../logger.js";
 
 export default {
 	name: Events.ClientReady,
@@ -18,7 +19,7 @@ export default {
 					true,
 				)
 			) {
-				console.warn("No permission to fetch webhooks");
+				logger.warn("No permission to fetch webhooks");
 				return;
 			}
 
@@ -49,6 +50,6 @@ export default {
 
 		await checkBirthdays(client);
 
-		console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
+		logger.info(`Logged in as ${client.user.tag} (${client.user.id})`);
 	},
 };
