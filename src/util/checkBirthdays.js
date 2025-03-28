@@ -4,6 +4,7 @@ import { guildConfig } from "./config.js";
 import { Op } from "sequelize";
 import { COLOR } from "../constants.js";
 import { setTimeout as pSetTimeout } from "node:timers/promises";
+import { checkLogChannel } from "./checkLogChannel.js";
 
 /**
  * @param {import("discord.js").Client} client
@@ -21,17 +22,15 @@ export async function checkBirthdays(client) {
 		return;
 	}
 
-	const channel = /** @type {import("discord.js").TextChannel} */ (
-		guild.channels.cache.find((channel) => channel.id === generalChatChannelId)
-	);
+	const logChannel = await checkLogChannel(guild, generalChatChannelId);
+
+	if (!logChannel) {
+		return;
+	}
 
 	const role = /** @type {import("discord.js").Role} */ (
 		guild.roles.cache.find((role) => role.id === birthdayRoleId)
 	);
-
-	if (!channel) {
-		return;
-	}
 
 	if (!role) {
 		return;
@@ -62,7 +61,7 @@ export async function checkBirthdays(client) {
 				timestamp: new Date().toISOString(),
 			});
 
-			await channel.send({ embeds: [embed] });
+			await logChannel.send({ embeds: [embed] });
 
 			await member.roles.add(role.id);
 

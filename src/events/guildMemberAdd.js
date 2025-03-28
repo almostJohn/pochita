@@ -24,9 +24,7 @@ export default {
 				return;
 			}
 
-			logger.info(`Member joined ${guildMember.user.id}`, {
-				memberId: guildMember.id,
-			});
+			logger.info(`Member joined ${guildMember.user.id}`);
 
 			await webhook.send({
 				embeds: [generateMemberLog(guildMember)],

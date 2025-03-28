@@ -12,4 +12,6 @@ export const COLOR = /** @type {const} */ ({
 
 export const MAX_TRUST_ACCOUNT_AGE = 1_000 * 60 * 60 * 24 * 7 * 4;
 
+export const AUDIT_LOG_WAIT_SECONDS = 2.5;
+
 export const TAB = /** @type {const} */ ("\u200B \u200B \u200B");
