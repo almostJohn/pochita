@@ -1,6 +1,6 @@
 // @ts-check
 
-import process from "node:process";
+import "dotenv/config.js";
 import { DataTypes, Sequelize } from "sequelize";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";

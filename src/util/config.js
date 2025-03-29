@@ -1,8 +1,6 @@
 export const guildConfig = {
-	birthdayRoleId: "1349038615505666058",
-	generalChatChannelId: "1228703089972871232",
-	modLogChannelId: "1353217076957024266",
-	memberLogWebhookId: "1353219240374833184",
-	guildLogWebhookId: "1353219540187742258",
+	mainChatChannelId: "1228703089972871232",
+	memberLogWebhookId: "1349036021983219882",
+	guildLogWebhookId: "1355464791396847688",
 	logIgnoreChannels: ["1352475059150782484", "1346691943530365049"],
 };

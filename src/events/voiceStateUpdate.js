@@ -1,8 +1,5 @@
-import { Events, inlineCode } from "discord.js";
-import { COLOR } from "../constants.js";
+import { Events, inlineCode, italic } from "discord.js";
 import { guildConfig } from "../util/config.js";
-import { logger } from "../logger.js";
-import { addFields } from "../util/embed.js";
 
 export default {
 	name: Events.VoiceStateUpdate,
@@ -39,37 +36,27 @@ export default {
 				: false;
 
 			let description = "";
-			/** @type {import("discord.js").APIEmbedAuthor} */
-			let author;
 
 			if ((!oldState.channel || fromIgnored) && newState.channel) {
 				if (!newState.member || toIgnored) {
 					return;
 				}
 
-				logger.info(`Member ${newState.member.id} joined a voice channel`);
+				console.log(`Member ${newState.member.id} joined a voice channel`);
 
-				description = `Joined ${newState.channel.toString()} - ${inlineCode(
-					newState.channel.name,
-				)} (${newState.channel.id})`;
-				author = {
-					name: `${newState.member.user.tag} (${newState.member.id})`,
-					icon_url: newState.member.user.displayAvatarURL(),
-				};
+				description = `${inlineCode(newState.member.user.tag)} (${
+					newState.member.id
+				}) — ${italic(`joined ${newState.channel.toString()}`)}`;
 			} else if (oldState?.channel && (!newState.channel || toIgnored)) {
 				if (!oldState.member || fromIgnored) {
 					return;
 				}
 
-				logger.info(`Member ${oldState.member.id} left a voice channel`);
+				console.log(`Member ${oldState.member.id} left a voice channel`);
 
-				description = `Left ${oldState.channel.toString()} - ${inlineCode(
-					oldState.channel.name,
-				)} (${oldState.channel.id})`;
-				author = {
-					name: `${oldState.member.user.tag} (${oldState.member.id})`,
-					icon_url: oldState.member.user.displayAvatarURL(),
-				};
+				description = `${inlineCode(oldState.member.user.tag)} (${
+					oldState.member.id
+				}) — ${italic(`left ${oldState.channel.toString()}`)}`;
 			} else if (
 				oldState?.channel &&
 				newState.channel &&
@@ -79,39 +66,25 @@ export default {
 					return;
 				}
 
-				logger.info(`Member ${newState.member.id} left a voice channel`);
+				console.log(`Member ${newState.member.id} left a voice channel`);
 
-				description = `Moved from ${oldState.channel.toString()} - ${inlineCode(
-					oldState.channel.name,
-				)} (${
-					oldState.channel.id
-				}) to ${newState.channel.toString()} - ${inlineCode(
-					newState.channel.name,
-				)} (${newState.channel.id})`;
-				author = {
-					name: `${newState.member.user.tag} (${newState.member.id})`,
-					icon_url: newState.member.user.displayAvatarURL(),
-				};
+				description = `${inlineCode(newState.member.user.tag)} (${
+					newState.member.id
+				}) — ${italic(
+					`moved from ${oldState.channel.toString()} to ${newState.channel.toString()}`,
+				)}`;
 			} else {
 				return;
 			}
 
-			const embed = addFields({
-				description,
-				author,
-				color: COLOR.Blurple,
-				title: "Voice state update",
-				timestamp: new Date().toISOString(),
-			});
-
 			await webhook.send({
-				embeds: [embed],
-				username: client.user.username,
+				content: description,
+				username: "Server Log",
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {
 			const error = /** @type {Error} */ (error_);
-			logger.error(error, error.message);
+			console.error(error);
 		}
 	},
 };

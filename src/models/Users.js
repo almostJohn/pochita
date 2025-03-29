@@ -3,7 +3,6 @@
 /**
  * @typedef {Object} UsersAttributes
  * @property {string} user_id
- * @property {Date | undefined} birthday
  */
 
 /**
@@ -22,10 +21,6 @@ export default (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				primaryKey: true,
-			},
-			birthday: {
-				type: DataTypes.DATE,
-				allowNull: true,
 			},
 		},
 		{

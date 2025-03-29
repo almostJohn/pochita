@@ -73,7 +73,7 @@ export default {
 		} catch (error_) {
 			/** @type {Error} */
 			const error = error_;
-			console.error(error, error.message);
+			console.error(error);
 
 			try {
 				if (interaction.isAutocomplete()) {
@@ -91,7 +91,7 @@ export default {
 			} catch (error__) {
 				/** @type {Error} */
 				const subError = error__;
-				console.error(subError, subError.message);
+				console.error(subError);
 			}
 		}
 	},
