@@ -1,8 +1,5 @@
-import { Events, inlineCode } from "discord.js";
-import { COLOR } from "../constants.js";
+import { Events, inlineCode, italic } from "discord.js";
 import { guildConfig } from "../util/config.js";
-import { logger } from "../logger.js";
-import { addFields } from "../util/embed.js";
 
 export default {
 	name: Events.ThreadCreate,
@@ -40,49 +37,22 @@ export default {
 				return;
 			}
 
-			logger.info(`Thread ${thread.name} created`);
-
-			const descriptionParts = [
-				`• Channel: ${thread.toString()} - ${inlineCode(thread.name)} (${
-					thread.id
-				})`,
-			];
-
-			const starterMessage = await thread
-				.fetchStarterMessage()
-				.catch(() => null);
-
-			if (starterMessage) {
-				descriptionParts.push(
-					`• Starter message: ${inlineCode(starterMessage.id)}`,
-					`• [Jump to starter message](${starterMessage.url})`,
-				);
-			}
+			console.log(`Thread ${thread.name} created`);
 
 			const owner = thread.ownerId
 				? await client.users.fetch(thread.ownerId)
 				: null;
-			const embed = addFields({
-				author: owner
-					? {
-							name: `${owner.tag} (${owner.id})`,
-							icon_url: owner.displayAvatarURL(),
-					  }
-					: undefined,
-				description: descriptionParts.join("\n"),
-				color: COLOR.Fuchsia,
-				title: "Thread created",
-				timestamp: (thread.createdAt ?? new Date()).toISOString(),
-			});
 
 			await webhook.send({
-				embeds: [embed],
-				username: client.user.username,
+				content: `${inlineCode(owner.tag)} (${owner.id}) — ${italic(
+					`has started a thread ${thread.toString()}`,
+				)}!`,
+				username: "Server Log",
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {
 			const error = /** @type {Error} */ (error_);
-			logger.error(error, error.message);
+			console.error(error);
 		}
 	},
 };

@@ -1,7 +1,5 @@
-import { Events } from "discord.js";
+import { Events, inlineCode, italic } from "discord.js";
 import { guildConfig } from "../util/config.js";
-import { generateMemberLog } from "../util/generateMemberLog.js";
-import { logger } from "../logger.js";
 
 export default {
 	name: Events.GuildMemberRemove,
@@ -24,11 +22,13 @@ export default {
 				return;
 			}
 
-			logger.info(`Member left ${guildMember.user.id}`);
+			console.log(`Member ${guildMember.user.id} left`);
 
 			await webhook.send({
-				embeds: [generateMemberLog(guildMember, false)],
-				username: client.user.username,
+				content: `${inlineCode(guildMember.user.tag)} (${
+					guildMember.user.id
+				}) — ${italic("left the server")}!`,
+				username: "Member Log",
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {
