@@ -1,5 +1,6 @@
 import { Events, inlineCode, italic } from "discord.js";
 import { Users } from "../db.js";
+import { guildConfig } from "../util/config.js";
 
 export default {
 	name: Events.MessageCreate,
@@ -24,8 +25,16 @@ export default {
 			await Users.destroy({ where: { user_id: message.author.id } });
 
 			const member = message.guild.members.cache.get(message.author.id);
+			const inactiveRole = message.guild.roles.cache.find(
+				(role) => role.id === guildConfig.inactiveRoleId,
+			);
+
 			if (member && afkUser.old_nickname) {
 				await member.setNickname(afkUser.old_nickname).catch(() => null);
+			}
+
+			if (member && inactiveRole) {
+				await member.roles.remove(inactiveRole.id).catch(() => null);
 			}
 
 			await message.reply({
@@ -35,18 +44,21 @@ export default {
 
 		const mentionedUsers = message.mentions.users;
 		if (mentionedUsers.size > 0) {
+			const afkMentions = [];
 			for (const [, user] of mentionedUsers) {
 				const mentionedUser = await Users.findOne({
 					where: { user_id: user.id },
 				});
 
 				if (mentionedUser) {
-					await message.channel.send({
-						content: `${inlineCode(user.tag)} is AFK — ${italic(
-							mentionedUser.reason,
-						)}`,
-					});
+					afkMentions.push(
+						`${inlineCode(user.tag)} is AFK — ${italic(mentionedUser.reason)}`,
+					);
 				}
+			}
+
+			if (afkMentions.length > 0) {
+				await message.channel.send({ content: afkMentions.join("\n") });
 			}
 		}
 	},

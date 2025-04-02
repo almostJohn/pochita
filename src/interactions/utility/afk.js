@@ -9,6 +9,11 @@ export const AFKCommand = /** @type {const} */ ({
 	type: ApplicationCommandType.ChatInput,
 	options: [
 		{
+			name: "user",
+			description: "The user to action",
+			type: ApplicationCommandOptionType.User,
+		},
+		{
 			name: "reason",
 			description: "Reason for being AFK",
 			type: ApplicationCommandOptionType.String,
