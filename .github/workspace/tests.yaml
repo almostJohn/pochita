@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - main
-    pull_request:
-      branches:
-        - development
+  pull_request:
+    branches:
+      - development
 
 jobs:
   type_check:
@@ -25,7 +25,9 @@ jobs:
         run: npm install
 
       - name: ESLint
-        run: npm run lint || echo "Lint issues found, but continuing"
+        run: npm run lint
+        continue-on-error: true
 
       - name: Run Tests
-        run: npm test || echo "Tests failed, but continuing"
+        run: npm test
+        continue-on-error: true
