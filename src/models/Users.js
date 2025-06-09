@@ -3,8 +3,6 @@
 /**
  * @typedef {Object} UsersAttributes
  * @property {string} user_id
- * @property {string} [reason]
- * @property {string} [old_nickname]
  */
 
 /**
@@ -23,14 +21,6 @@ export default (sequelize, DataTypes) => {
 				type: DataTypes.STRING,
 				allowNull: false,
 				primaryKey: true,
-			},
-			reason: {
-				type: DataTypes.STRING,
-				allowNull: true,
-			},
-			old_nickname: {
-				type: DataTypes.STRING,
-				allowNull: true,
 			},
 		},
 		{
