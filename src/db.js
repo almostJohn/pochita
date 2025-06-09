@@ -24,8 +24,18 @@ const { default: UsersModel } = await import(
 	pathToFileURL(path.join(__dirname, "./models/Users.js")).href
 );
 
+const { default: ModerationActionsModel } = await import(
+	pathToFileURL(path.join(__dirname, "./models/ModerationActions.js")).href
+);
+
 /** @type {import("sequelize").ModelStatic<import("./models/Users.js").UsersModel>} */
 export const Users = UsersModel(sequelize, DataTypes);
+
+/** @type {import("sequelize").ModelStatic<import("./models/ModerationActions.js").ModerationActionModel>} */
+export const ModerationActions = ModerationActionsModel(sequelize, DataTypes);
+
+Users.hasMany(ModerationActions, { foreignKey: "user_id" });
+ModerationActions.belongsTo(Users, { foreignKey: "user_id" });
 
 (async () => {
 	try {

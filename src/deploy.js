@@ -4,7 +4,6 @@ import {
 	// utility
 	PingCommand,
 	InfoCommand,
-	AFKCommand,
 } from "./interactions/index.js";
 
 const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
@@ -18,7 +17,6 @@ const rest = new REST().setToken(process.env.DISCORD_BOT_TOKEN);
 				// utility
 				PingCommand,
 				InfoCommand,
-				AFKCommand,
 			],
 		});
 
