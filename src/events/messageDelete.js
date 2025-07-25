@@ -1,5 +1,7 @@
-import { Events, inlineCode, italic } from "discord.js";
+import { Events, messageLink, MessageType } from "discord.js";
 import { guildConfig } from "../util/config.js";
+import { addFields } from "../util/embed.js";
+import { COLOR } from "../constants.js";
 
 export default {
 	name: Events.MessageDelete,
@@ -54,11 +56,77 @@ export default {
 				`Message by ${message.author.id} deleted in channel ${message.channelId}`,
 			);
 
+			const infoParts = [
+				`• Channel: ${message.channel.toString()} - \`${
+					message.channel.name
+				}\` (${message.channel.id})`,
+			];
+
+			if (!message.content && message.embeds.length) {
+				infoParts.push(`• Embeds: ${message.embeds.length}`);
+			}
+
+			if (message.attachments.size) {
+				const attachmentParts = [];
+				let counter = 1;
+				for (const attachment of message.attachments.values()) {
+					attachmentParts.push(`[${counter}](${attachment.proxyURL})`);
+					counter++;
+				}
+
+				infoParts.push(`• Attachments: ${attachmentParts.join(" ")}`);
+			}
+
+			if (message.stickers.size) {
+				infoParts.push(
+					`• Stickers: ${message.stickers
+						.map((sticker) => `\`${sticker.name}\``)
+						.join(", ")}`,
+				);
+			}
+
+			infoParts.push(`• [Jump to](${message.url})`);
+
+			if (
+				message.type === MessageType.Reply &&
+				message.reference &&
+				message.mentions.repliedUser
+			) {
+				const { channelId, guildId, messageId } = message.reference;
+				const replyURL = messageLink(channelId, messageId, guildId);
+
+				infoParts.push(
+					message.mentions.users.has(message.mentions.repliedUser.id)
+						? `• @Replying to [${messageId}](${replyURL}) by \`${message.mentions.repliedUser.tag}\` (${message.mentions.repliedUser.id})`
+						: `• Replying to [${messageId}](${replyURL}) by \`${message.mentions.repliedUser.tag}\` (${message.mentions.repliedUser.id})`,
+				);
+			}
+
+			const embed = addFields({
+				author: {
+					name: `${message.author.tag} (${message.author.id})`,
+					icon_url: message.author.displayAvatarURL(),
+				},
+				color: COLOR.Purple,
+				title: "Message deleted",
+				description: `${
+					message.content.length ? message.content : "No message content"
+				}`,
+				fields: [
+					{
+						name: "\u200B",
+						value: infoParts.join("\n"),
+					},
+				],
+				footer: {
+					text: message.id,
+				},
+				timestamp: new Date().toISOString(),
+			});
+
 			await webhook.send({
-				content: `${inlineCode(message.author.tag)} (${
-					message.author.id
-				}) — ${italic("unsent a message")}!`,
-				username: "Server Log",
+				embeds: [embed],
+				username: client.user.username,
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {

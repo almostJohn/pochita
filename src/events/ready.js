@@ -18,7 +18,7 @@ export default {
 				)
 			) {
 				console.log("No permission to fetch webhooks");
-				return;
+				continue;
 			}
 
 			const { memberLogWebhookId, guildLogWebhookId } = guildConfig;

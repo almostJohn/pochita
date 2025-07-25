@@ -1,5 +1,6 @@
-import { Events, inlineCode, italic } from "discord.js";
+import { Events } from "discord.js";
 import { guildConfig } from "../util/config.js";
+import { generateMemberLog } from "../util/generateMemberLog.js";
 
 export default {
 	name: Events.GuildMemberAdd,
@@ -25,10 +26,8 @@ export default {
 			console.log(`Member ${guildMember.user.id} joined`);
 
 			await webhook.send({
-				content: `${inlineCode(guildMember.user.tag)} (${
-					guildMember.user.id
-				}) — ${italic("has joined the server")}!`,
-				username: "Member Log",
+				embeds: [generateMemberLog(guildMember)],
+				username: client.user.username,
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {

@@ -1,5 +1,8 @@
-import { Events, escapeMarkdown, inlineCode, italic } from "discord.js";
+import { Events, escapeMarkdown } from "discord.js";
 import { guildConfig } from "../util/config.js";
+import { addFields } from "../util/embed.js";
+import { COLOR } from "../constants.js";
+import { diffLines, diffWords } from "diff";
 
 export default {
 	name: Events.MessageUpdate,
@@ -52,11 +55,91 @@ export default {
 
 			console.log(`Member ${newMessage.author.id} updated a message`);
 
+			let description = "";
+
+			if (
+				/```(.*?)```/s.test(oldMessage.content) &&
+				/```(.*?)```/s.test(newMessage.content)
+			) {
+				const strippedOldMessage = /```(?:(\S+)\n)?\s*([^]+?)\s*```/.exec(
+					oldMessage.content,
+				);
+
+				if (!strippedOldMessage?.[2]) {
+					return;
+				}
+
+				const strippedNewMessage = /```(?:(\S+)\n)?\s*([^]+?)\s*```/.exec(
+					newMessage.content,
+				);
+
+				if (!strippedNewMessage?.[2]) {
+					return;
+				}
+
+				if (strippedOldMessage[2] === strippedNewMessage[2]) {
+					return;
+				}
+
+				const diffMessage = diffLines(
+					strippedOldMessage[2],
+					strippedNewMessage[2],
+					{ newlineIsToken: true },
+				);
+
+				for (const part of diffMessage) {
+					if (part.value === "\n") {
+						continue;
+					}
+
+					const deleted = part.added ? "+ " : part.removed ? "- " : "";
+					description += `${deleted}${part.value.replaceAll("\n", "")}\n`;
+				}
+
+				const prepend = "```diff\n";
+				const append = "\n```";
+				description = `${prepend}${description.slice(0, 3_900)}${append}`;
+			} else {
+				const diffMessage = diffWords(
+					escapeMarkdown(oldMessage.content),
+					escapeMarkdown(newMessage.content),
+				);
+
+				for (const part of diffMessage) {
+					const markdown = part.added ? "**" : part.removed ? "~~" : "";
+					description += `${markdown}${part.value}${markdown}`;
+				}
+
+				description = `${description.slice(0, 3_900)}` || "\u200B";
+			}
+
+			const info = `• Channel: ${newMessage.channel.toString()} - ${
+				newMessage.inGuild ? newMessage.channel.name : ""
+			} (${newMessage.channel.id})\n• [Jump to](${newMessage.url})`;
+
+			const embed = addFields({
+				author: {
+					name: `${newMessage.author.tag} (${newMessage.author.id})`,
+					icon_url: newMessage.author.displayAvatarURL(),
+				},
+				color: COLOR.Purple,
+				title: "Message updated",
+				description,
+				fields: [
+					{
+						name: "\u200B",
+						value: info,
+					},
+				],
+				footer: {
+					text: newMessage.id,
+				},
+				timestamp: new Date().toISOString(),
+			});
+
 			await webhook.send({
-				content: `${inlineCode(newMessage.author.tag)} (${
-					newMessage.author.id
-				}) — ${italic(`edited their [message](${newMessage.url})`)}!`,
-				username: "Server Log",
+				embeds: [embed],
+				username: client.user.username,
 				avatarURL: client.user.displayAvatarURL(),
 			});
 		} catch (error_) {
